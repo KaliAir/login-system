@@ -2,8 +2,6 @@
 import Link from "next/link";
 import React from "react";
 import { Style } from "./styleJS";
-import { robotoFont } from "@/fonts/font";
-import { Kdam_Thmor_ProFont } from "@/fonts/font";
 import { motion } from "framer-motion";
 import userSignUpState from "@/zustand/authState/signUpState";
 import { useRouter } from "next/navigation";
@@ -28,8 +26,8 @@ function SignUp() {
     const dataObj = Object.fromEntries(formData);
     const { success, error } = await createUser(dataObj);
     if (success) {
-      const { message } = await generateToken({ email: dataObj.email });
-      if (message === "TokenGenerated") {
+      const { success } = await generateToken({ email: dataObj.email });
+      if (success) {
         const { email, token } = await verifyemail({ email: dataObj.email });
         const sendEmail = await send({ email, token });
         setSubmitting(false);
@@ -45,10 +43,9 @@ function SignUp() {
     <form
       onSubmit={handleSignUp}
       style={Style.SignUpFormContainer}
-      className={Kdam_Thmor_ProFont.className}
     >
         
-      <h1 className={robotoFont.className} style={Style.signup}>
+      <h1  style={Style.signup}>
         Sign Up
       </h1>
       <motion.p style={Style.validate}

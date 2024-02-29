@@ -13,7 +13,7 @@ export async function POST(request) {
       from: 'JJM Inventory System <onboarding@resend.dev>',
       to: [emailString],
       subject: "Confirm your email",
-      html: `<p style="background-color: #35374B; padding: 10px;border-radius: 15px;font-size: 16px; color: #2D9596; font-family: 'Arial', sans-serif;">Copy The Verifaction Token :  <span style="font-size:20px;font-weight:600px;">${token}</span></p>`
+      html: `<p style="background-color: #35374B;text-align: center;display: grid;place-content:center; padding: 10px;border-radius: 15px;font-size: 16px; color: #2D9596; font-family: 'Arial', sans-serif;">Copy The Verifaction Token :  <span style="font-size:20px;font-weight:600px;">${token}</span></p>`
     });
     console.log(data)
 

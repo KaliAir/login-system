@@ -1,17 +1,16 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { isEmailValid } from "@/validateFormEmail/validateformemail";
-import bcryptjs from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 export async function POST(request){
     try {
         const reqbody = await request.json();
-        const {email,password} = reqbody;
+        const {email} = reqbody;
 
         const validEmailFormat = isEmailValid(email);
-        if(!validEmailFormat || !email || !password){
+        if(!validEmailFormat || !email){
             return NextResponse.json({
                 error:"Input fields cannot be empty"
             })
@@ -24,19 +23,12 @@ export async function POST(request){
         });
         if(!checkUserVerified){
             return NextResponse.json({
-                error: "Email does not exist"
+                error: "Email does not exists"
             });
-        }
-        const passValidate = await bcryptjs.compare(password,checkUserVerified.hashedPassword);
-        if(!passValidate){
-            return NextResponse.json({
-                error:"Credentials doesn't match"
-            })
         }
 
         return NextResponse.json({
             verified: checkUserVerified.verified,
-            password: passValidate
         })
 
     } catch (error) {

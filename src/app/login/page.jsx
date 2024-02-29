@@ -6,8 +6,6 @@ import { FaFacebook } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { ImGoogle3 } from "react-icons/im";
 import { Style } from "./styleJS";
-import { robotoFont } from "@/fonts/font";
-import { oswaldFont } from "@/fonts/font";
 import { motion } from "framer-motion";
 import { IoIosHome } from "react-icons/io";
 import Link from "next/link";
@@ -38,30 +36,29 @@ function LoginPage() {
     setIsLoading(true)
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData);
-    const {verified} = await isverified({email:dataObj.email})
-    if(verified === false){
-      const {message} = await generateToken({email:dataObj.email})
-      if(message === "TokenGenerated"){
-        setIsLoading(false)
+    const {verified,password,error} = await isverified({email:dataObj.email,password:dataObj.password})
+    if(!verified && password){
+      const {success} = await generateToken({email:dataObj.email})
+      if(success){
         const {email, token} = await verifyemail({email:dataObj.email})
         const sendEmail = await send({email,token})
+        setIsLoading(false)
         router.push(`/login/signup/${dataObj}`)
       }
     }
-    const {ok}= await signIn("credentials",{
+    const {ok} = await signIn("credentials",{
       ...dataObj,
       redirect: false
     });
     if(!ok){
       setIsLoading(false)
-      setLoginError("Email or Password does'nt match")
+      setLoginError(error)
+    }else{
+      router.push('/admin')
     }
 
-    if(ok){
-      setIsLoading(false)
-      router.push("/admin")
     }
-  }
+    
 
   const handdleSignInWithGoogle = async ()=>{
     await signIn('google')
@@ -84,12 +81,12 @@ function LoginPage() {
           <IoIosHome/>
         </Link>
       </motion.div>
-      <h1 style={Style.login} className={robotoFont.className}>
+      <h1 style={Style.login}>
         Login
       </h1>
       <p style={Style.error}>{loginError}</p>
       <div>
-        <p className={oswaldFont.className}>Email</p>
+        <p>Email</p>
         <label htmlFor="email" style={Style.label}>
           <TfiEmail style={Style.emailIcon} />
           <input
@@ -98,12 +95,11 @@ function LoginPage() {
             id="email"
             placeholder="Type your email"
             style={Style.input}
-            required
           />
         </label>
       </div>
       <div>
-        <p className={oswaldFont.className}>Password</p>
+        <p>Password</p>
         <label htmlFor="password" style={Style.label}>
           <MdLockOutline style={Style.passwordIcon} />
           <input
@@ -112,7 +108,6 @@ function LoginPage() {
             id="password"
             placeholder="Type your password"
             style={Style.input}
-            required
           />
         </label>
       </div>
@@ -140,15 +135,33 @@ function LoginPage() {
         whileHover={{
           scale: 1.03,
         }}
-        className={robotoFont.className}
+      
       >
         {!isLoading?"LOGIN":"WAIT"}
       </motion.button>
       <p style={Style.or}>Or Sign Up Using</p>
       <div style={Style.signInWith}>
-        <ImGoogle3 style={Style.googleIcon} onClick={handdleSignInWithGoogle} />
-        <FaFacebook style={Style.fbIcon} onClick={handdleSignInWithFacebook}/>
-        <AiFillTwitterCircle style={Style.twitterIcon} onClick={handleSignInWithTwitter}/>
+        <motion.div
+        whileHover={{
+          scale:1.05
+        }}
+        >
+          <ImGoogle3 style={Style.googleIcon} onClick={handdleSignInWithGoogle} />
+        </motion.div>
+        <motion.div
+        whileHover={{
+          scale:1.05
+        }}
+        >
+          <FaFacebook style={Style.fbIcon} onClick={handdleSignInWithFacebook}/>
+        </motion.div>
+        <motion.div
+        whileHover={{
+          scale:1.05
+        }}
+        >
+          <AiFillTwitterCircle style={Style.twitterIcon} onClick={handleSignInWithTwitter}/>
+        </motion.div>
       </div>
     </form>
   );

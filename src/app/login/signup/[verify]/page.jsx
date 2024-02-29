@@ -2,7 +2,6 @@
 import React from 'react'
 import { VscUnverified } from "react-icons/vsc";
 import { Style } from './styleJS';
-import { Kdam_Thmor_ProFont } from '@/fonts/font';
 import { motion } from 'framer-motion';
 import { confirm } from '@/fetch/confirm';
 import { useRouter } from 'next/navigation';
@@ -36,19 +35,19 @@ function Verify({params}) {
   const resendEmail = async ()=>{
       const myForm = document.querySelector("#myForm")
       const decodedEmail = decodeURIComponent(params.verify)
-      const {message,isEmailFormat,error}= await generateToken({email:decodedEmail})
+      const {success,isEmailFormat,error}= await generateToken({email:decodedEmail})
       setErrorMessage(error)
       if(error === "Can't generate please relog"){
         setRelog(true);
       }
-      if(message === "TokenGenerated" && isEmailFormat){
+      if(success && isEmailFormat){
         myForm.reset();
         const {email, token} = await verifyemail({email:decodedEmail});
         const sendEmail = await send({email,token});
     }
   }
   return (
-    <form id='myForm' onSubmit={handleVerify} style={Style.verifyContainer} className={Kdam_Thmor_ProFont.className}>
+    <form id='myForm' onSubmit={handleVerify} style={Style.verifyContainer}>
         <p style={Style.errorMessage}>{errorMessage}</p>
         {!relog?(<VscUnverified style={Style.verifyIcon}/>):<Link href='/login'><motion.p whileHover={{scale:1.03}} style={Style.relog}>{`->RELOG<-`}</motion.p></Link>}
         <p style={Style.emailCheck}>Please check your email.</p>

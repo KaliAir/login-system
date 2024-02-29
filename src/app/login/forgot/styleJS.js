@@ -3,7 +3,6 @@ export const Style = {
         display: "grid",
         placeContent: "center",
         placeItems: "center",
-        gridTemplateRows: "2fr 1fr 1fr .5fr",
         gridRowGap: "2rem",
         backgroundColor: "white",
         borderRadius: "15px",
@@ -13,7 +12,7 @@ export const Style = {
     },
     lockIcon:{
         fontSize: "5rem",
-        color: "#FB8B24",
+        color: "#344955",
     },
     input:{
         outline: "none",
@@ -22,7 +21,7 @@ export const Style = {
         fontWeight:"600",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
         borderRadius: "5px",
-        border:"2px solid rgb(0,0,0,.6)",
+        border:"1px solid rgb(0,0,0,.2)",
     },
     button:{
         backgroundColor: "#4158D0",
@@ -34,11 +33,30 @@ export const Style = {
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
         padding:".8rem 2rem"
     },
+    buttonLoading:{
+        backgroundColor: "#4158D0",
+        borderRadius:"5px",
+        color: "black",
+        fontWeight: "700",
+        letterSpacing: ".1rem",
+        boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
+        padding:".8rem 2rem"
+    },
     login:{
-        fontSize:".9rem",
+        fontSize:".7rem",
         fontWeight:"800",
         color:"#004225",
         letterSpacing:".2rem",
         borderBottom: "2px solid #102C57",
+    },
+    error:{
+        fontSize:".9rem",
+        fontWeight:"600",
+        color:"#EE4266"
+    },
+    emailLabel:{
+        fontSize:"1rem",
+        fontWeight:"700",
+        color:"rgb(0,0,0,.7)",
     }
 }

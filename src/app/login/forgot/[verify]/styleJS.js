@@ -2,7 +2,6 @@ export const Style = {
     verifyContainer:{
         display:"grid",
         placeContent: "center",
-        gridTemplateRows: ".5fr 2fr .5fr 1fr .3fr 1fr",
         backgroundColor: "white",
         padding: "2rem",
         borderRadius: "15px",
@@ -12,7 +11,7 @@ export const Style = {
     verifyIcon:{
         fontSize: "3rem",
         placeSelf: "center",
-        color: "#EE4266",
+        color: "#78A083",
     },
     input:{
         outline: "none",
@@ -20,7 +19,7 @@ export const Style = {
         color: "rgb(0,0,0,.8)",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
         borderRadius: "5px",
-        border:"1px solid rgb(0,0,0,.2)"
+        border:"2px solid rgb(0,0,0,.6)",
     },
     resend: {
         justifySelf: "end",
@@ -31,17 +30,20 @@ export const Style = {
     button:{
         backgroundColor: "#4158D0",
         backgroundImage: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
-        borderRadius:"10px",
+        borderRadius:"5px",
         color: "white",
-        fonstWeight: "700",
+        fontWeight: "700",
         letterSpacing: ".1rem",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
+        padding:".4rem 0px",
+
     },
     buttonLoading:{
         backgroundColor: "#4158D0",
-        borderRadius:"10px",
+        padding:".4rem 0px",
+        borderRadius:"5px",
         color: "black",
-        fonstWeight: "700",
+        fontWeight: "700",
         letterSpacing: ".1rem",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
     },
@@ -53,7 +55,7 @@ export const Style = {
     errorMessage:{
         placeSelf: "center",
         fontSize: ".8rem",
-        fontWeight: "600",
+        fontWeight: "700",
         color:"#EE4266",
         letterSpacing: ".1rem",
         textAlign: "center",

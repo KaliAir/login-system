@@ -1,0 +1,61 @@
+export const Style = {
+    mainContainer:{
+        display: "grid",
+        height: "100dvh",
+        gridTemplateRows: "65px auto 100px",
+    },
+    content:{
+        display: "grid",
+        placeContent: "center",
+        fontSize: "1.5rem",
+        backgroundImage: "linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)",
+    },
+    contentItem:{
+        display: "grid",
+        gridTemplateColumns:"auto 1fr",
+        placeItems: "center",
+        gridColumnGap: ".4rem",
+        padding: "2rem",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px",
+        borderRadius: "20px",
+        color: "rgb(0,0,0,.8)",
+        textAlign: "center",
+    },
+    contentItemIcon:{
+        fontSize: "7rem",
+    },
+    nav:{
+        display: "grid",
+        justifyItems: "end",
+        alignItems: "center",
+        fontSize: "1.2rem",
+        backgroundImage: "linear-gradient( 109.6deg,  rgba(103,30,117,1) 11.2%, rgba(252,76,2,1) 91.1% )",
+        boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px",
+        zIndex: "10",
+        borderRadius: "0rem 0rem .7rem .7rem",
+    },
+    navItem:{
+        display: "grid",
+        gridTemplateColumns: "auto 1fr",
+        gridColumnGap: ".2rem",
+        placeItems: "center",
+        backgroundImage: "linear-gradient( 174.2deg,  rgba(255,244,228,1) 7.1%, rgba(240,246,238,1) 67.4% )",
+        padding: ".6rem",
+        borderRadius: "10px",
+        color: "rgb(0,0,0,.8)",
+        marginRight: "1.5rem",
+        boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
+    },
+    footer:{
+        display: "grid",
+        backgroundImage: "linear-gradient(to right, #434343 0%, black 100%)",
+    },
+    footerItem:{
+        placeSelf:"center",
+        fontSize: "1.2rem",
+        color: "white",
+        backgroundColor: "rgb(0,0,0,.4)",
+        padding: "1rem",
+        borderRadius: "10px",
+    }
+}

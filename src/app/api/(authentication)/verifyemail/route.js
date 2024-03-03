@@ -21,7 +21,7 @@ export async function POST(request){
 
         return NextResponse.json({
             email: findVerifactionEmail.email,
-            token: findVerifactionEmail.token
+            token: findVerifactionEmail.token,
         })
 
     } catch (error) {

@@ -1,8 +1,6 @@
 "use client"
 import Link from "next/link";
 import { Style } from "./styleJS";
-import { oswaldFont } from "@/fonts/font";
-import { Kdam_Thmor_ProFont } from "@/fonts/font";
 import { AiOutlineLogin } from "react-icons/ai";
 import { MdInventory } from "react-icons/md";
 import { motion } from "framer-motion";
@@ -11,7 +9,7 @@ import { motion } from "framer-motion";
 const LandingPage = () => {
   return (
     <div style={Style.mainContainer}>
-      <div className={oswaldFont.className} style={Style.nav}>
+      <div style={Style.nav}>
         <Link href="/login">
         <motion.div style={Style.navItem}
           whileHover={{
@@ -24,7 +22,7 @@ const LandingPage = () => {
         </motion.div>
         </Link>
       </div>
-      <div className={Kdam_Thmor_ProFont.className} style={Style.content}>
+      <div style={Style.content}>
         <div style={Style.contentItem}>
           <MdInventory style={Style.contentItemIcon}/>
           <h1>Welcome to JJM Inventory System</h1>

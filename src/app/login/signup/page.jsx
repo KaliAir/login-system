@@ -29,9 +29,13 @@ function SignUp() {
       const { success } = await generateToken({ email: dataObj.email });
       if (success) {
         const { email, token } = await verifyemail({ email: dataObj.email });
-        const sendEmail = await send({ email, token });
-        setSubmitting(false);
-        router.push(`/login/signup/${email}`);
+        const {data} = await send({ email, token });
+        if(data.error !== null){
+          const storeEmail = {email}
+          localStorage.setItem('myData',JSON.stringify(storeEmail));
+          setSubmitting(false);
+          router.push(`/login/signup/${email}`);
+        }
       }
     } else {
       setErrorRes(error);

@@ -7,7 +7,7 @@ import { resetpassword } from '@/fetch/resetpassword';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-function PasswordReset({params}) {
+function PasswordReset() {
   const router = useRouter();
   const [resetLoading,setResetLoading] = useState(false);
   const [resetError, setResetError] = useState("");
@@ -17,9 +17,11 @@ function PasswordReset({params}) {
     setResetLoading(true)
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData);
-    const {success,error} = await resetpassword(dataObj);
+    const {success,error,email} = await resetpassword(dataObj);
     if(success){
       setResetLoading(false);
+      const data = {email}
+      localStorage.setItem('myData',JSON.stringify(data))
       router.push('/login/repass');
     }else{
       setResetLoading(false);
@@ -33,12 +35,6 @@ function PasswordReset({params}) {
         <VscUnverified style={Style.verifyIcon}/>
         <p style={Style.emailCheck}>Input reset password token. </p>
         <input type="text" name="token" id="token" placeholder='Reset Token Here'  style={Style.input}/>
-        <motion.p style={Style.resend}
-        whileHover={{
-            scale: 1.05,
-            color: "#1D24CA"
-        }}      
-        >resend</motion.p>
         <motion.button style={!resetLoading?Style.button:Style.buttonLoading}
         whileHover={{
             scale: 1.02

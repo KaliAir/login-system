@@ -24,11 +24,6 @@ export const isPasswordValid= (password) => {
         return {status:false,message:"Passord at least one special character"};
     }
 
-    // Please use valid email
-    // if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    //     return {status: false,message: "Please use valid email"}
-    // }
-  
-    // All criteria met
+   
     return {status:true,message:"Success"};
   };

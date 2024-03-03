@@ -24,24 +24,22 @@ export async function POST(request){
                 error: "token is expired please resend"
             });
         }
-        const checkAccout = await prisma.user.findFirst({
+        
+        const updateResetState = await prisma.verificationToken.update({
             where:{
-                email: checkUserToken.email
+                token: checkUserToken.token
+            },
+            data:{
+                reset: true
             }
-        });
+        }) 
 
-        if(!checkAccout){
-            return NextResponse.json({
-                error: "No account found by this token"
-            });
-        }
-
-    
         return NextResponse.json({
             message: "Account verified",
             success: true,
+            email: checkUserToken.email,
+            updateResetState,
         })
-
 
     } catch (error) {
         return NextResponse.json({

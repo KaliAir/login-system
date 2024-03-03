@@ -11,7 +11,7 @@ import { verifyemail } from '@/fetch/verifyemail';
 import { send } from '@/fetch/send';
 import Link from 'next/link';
 
-function Verify({params}) {
+function Verify() {
   const router = useRouter()
   const [errorMessage,setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -22,9 +22,17 @@ function Verify({params}) {
     setIsLoading(true)
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData);
+    const localData = localStorage.getItem('myData');
+    const storeData = JSON.parse(localData);
+    const {email} = await verifyemail(storeData.email)
+    if(!email){
+      localStorage.removeItem('myData')
+      router.push('/login/signup')
+    }
     const {success,error} = await confirm(dataObj);
     if(success){
       setIsLoading(false)
+      localStorage.removeItem('myData')
       router.push("/login");
     }else{
       setIsLoading(false)
@@ -34,8 +42,10 @@ function Verify({params}) {
     
   const resendEmail = async ()=>{
       const myForm = document.querySelector("#myForm")
-      const decodedEmail = decodeURIComponent(params.verify)
-      const {success,isEmailFormat,error}= await generateToken({email:decodedEmail})
+      const localData = localStorage.getItem('myData');
+      const storeData = JSON.parse(localData);
+      // const decodedEmail = decodeURIComponent(params.verify)
+      const {success,isEmailFormat,error}= await generateToken({email:storeData.email})
       setErrorMessage(error)
       if(error === "Can't generate please relog"){
         setRelog(true);

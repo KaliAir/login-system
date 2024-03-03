@@ -8,7 +8,6 @@ export async function POST(request) {
     const reqbody = await request.json();
     const {email,token} = reqbody;
     const emailString = String(email);
-    // const confirmLink = `http://localhost:3000/api/confirm?token=${token}`;
     const data = await resend.emails.send({
       from: 'JJM Inventory System <onboarding@resend.dev>',
       to: [emailString],

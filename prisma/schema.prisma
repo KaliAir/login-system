@@ -51,6 +51,7 @@ model VerificationToken {
   id  String @id @default(auto()) @map("_id") @db.ObjectId
   email String
   token String @unique
+  reset Boolean @default(false)
   expires DateTime
 
   @@unique([email,token])

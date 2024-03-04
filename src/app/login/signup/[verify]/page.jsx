@@ -60,7 +60,7 @@ function Verify() {
       }
       if(success && isEmailFormat){
         myForm.reset();
-        const {email, token} = await verifyemail({email:decodedEmail});
+        const {email, token} = await verifyemail({email:storeData.email});
         const sendEmail = await send({email,token});
     }
   }

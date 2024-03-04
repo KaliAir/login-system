@@ -21,7 +21,7 @@ function ForgotPass() {
     setForgotLoading(true)
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData);
-    const {verified,error} = await forgotEmailCheck(dataObj);
+    const {verified,error} = await forgotEmailCheck(dataObj); //check the email if it exists then return the state of the verified in db(true OR false)
     if(verified){
       const {success} = await generateToken(dataObj);
       if(success){

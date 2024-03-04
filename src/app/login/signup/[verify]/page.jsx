@@ -5,7 +5,7 @@ import { Style } from './styleJS';
 import { motion } from 'framer-motion';
 import { confirm } from '@/fetch/confirm';
 import { useRouter } from 'next/navigation';
-import { useState} from 'react';
+import { useState,useEffect} from 'react';
 import { generateToken } from '@/fetch/generatetoken';
 import { verifyemail } from '@/fetch/verifyemail';
 import { send } from '@/fetch/send';
@@ -16,14 +16,22 @@ function Verify() {
   const [errorMessage,setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [relog,setRelog] = useState(false);
+  const [storeData, setStoreData] = useState(null)
+
+  useEffect(()=>{
+    const localStorageData = localStorage.getItem('myData')
+    if(localStorageData){
+      setStoreData(JSON.parse(localStorageData));
+    }else{
+      router.push('/login/signup')
+    }
+  },[])
 
   const handleVerify = async (e)=>{
     e.preventDefault();
     setIsLoading(true)
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData);
-    const localData = localStorage.getItem('myData');
-    const storeData = JSON.parse(localData);
     const {email} = await verifyemail(storeData.email)
     if(!email){
       localStorage.removeItem('myData')

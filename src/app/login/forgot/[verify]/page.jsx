@@ -11,7 +11,7 @@ function PasswordReset() {
   const router = useRouter();
   const [resetLoading,setResetLoading] = useState(false);
   const [resetError, setResetError] = useState("");
-  
+
   const handleResetPassword = async (e)=>{
     e.preventDefault()
     setResetLoading(true)

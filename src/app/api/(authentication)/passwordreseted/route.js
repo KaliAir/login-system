@@ -30,6 +30,11 @@ export async function POST(request){
             token
         }
     })
+    if(!checkToken){
+        return NextResponse.json({
+            error: "Token Expired"
+        })
+    }
 
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password,salt);

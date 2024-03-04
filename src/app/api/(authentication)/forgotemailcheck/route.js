@@ -9,10 +9,16 @@ export async function POST(request){
         const reqbody = await request.json();
         const {email} = reqbody;
 
-        const validEmailFormat = isEmailValid(email);
-        if(!validEmailFormat || !email){
+        if(!email){
             return NextResponse.json({
-                error:"Input fields cannot be empty"
+                error: "Input field cannot be empty"
+            })
+        }
+
+        const validEmailFormat = isEmailValid(email);
+        if(!validEmailFormat){
+            return NextResponse.json({
+                error:"Not valid email"
             })
         }
 

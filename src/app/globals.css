@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* body{
+  color: white;
+} */
+
 .loading-container {
     display: flex;
     justify-content: center;

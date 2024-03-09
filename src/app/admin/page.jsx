@@ -1,8 +1,9 @@
 import React from 'react'
+import { Style } from './styleJS'
 
 function AdminLanding() {
   return (
-    <div>Admin Landing Section</div>
+    <div style={Style.adminLandingPage}>Admin Landing Section</div>
   )
 }
 

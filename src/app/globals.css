@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body{
-  color: white;
-} */
+body{
+  position: relative;
+  z-index: -20;
+}
+
 
 .loading-container {
     display: flex;

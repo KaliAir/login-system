@@ -9,7 +9,7 @@ import Facebook from "next-auth/providers/facebook";
 
 const prisma = new PrismaClient();
 
-export const authOptions = {
+export const authOptions = { 
   adapter: PrismaAdapter(prisma),
   providers: [
     Google({

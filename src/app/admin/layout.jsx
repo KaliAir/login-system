@@ -1,20 +1,20 @@
 import React from 'react'
 import HeaderContainer from '../components/header/headerContainer'
 import NavbarContainer from '../components/nav/navContainer'
-import AsideContainer from '../components/aside/asideContainer'
 import FooterContainer from '../components/footer/footerContainer'
+import MainContent from '../mainComponents/mainContent'
+import { Style } from './styleJS'
 
 function AdminLayout({ children }) {
   return (
-    <>
-      <header><HeaderContainer/></header>
-      <nav><NavbarContainer/></nav>
-      <aside><AsideContainer/></aside>
-      <main>
-        <section>{ children }</section>
-      </main>
+    <div style={Style.container}>
+      <header style={Style.header}><HeaderContainer/></header>
+      <nav style={Style.nav}><NavbarContainer/></nav>
+      <MainContent>
+        {children}
+      </MainContent>
       <footer><FooterContainer/></footer>
-    </>
+    </div>
   )
 }
 

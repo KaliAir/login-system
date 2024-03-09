@@ -1,5 +1,10 @@
 export const Style = {
     container:{
-        backgroundColor:"#EADFB4"
+        display:"grid",
+        placeItems:"center",
+        // backgroundColor:"#78A083",
+        height:"5rem",
+        fontSize:"1.3rem",
+        fontWeight:"600",
     }
 }

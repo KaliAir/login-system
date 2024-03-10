@@ -14,9 +14,7 @@ function ThemDropDown() {
     themeColor: state.themeColor,
     setThemeColor: state.setThemeColor,
   }))
-  const handleDrop = () => {
-    setDrop(!drop);
-  };
+
   const themeColors = [
     { name: "Ocean Blue", color: "skyblue" },
     { name: "Idian Mekus", color: "indianred" },
@@ -24,12 +22,21 @@ function ThemDropDown() {
     { name: "Korean Leaf", color: "lightgreen" },
   ];
 
+  const handleDrop = () => {
+    setDrop(!drop);
+  };
+
   const handleHoverStart = (theme) => {
     setHoverColor(theme)
   };
 
   const handleHoverEnd = ()=>{
     setHoverColor({});
+  }
+
+  const setBoth = (theme)=>{
+    setThemeColor(theme);
+    setHoverColor(theme)
   }
 
   return (
@@ -49,9 +56,9 @@ function ThemDropDown() {
                   height: "1.5rem",
                 }:{height: "1.5rem"}}
                 key={index}
-                onHoverStart={()=>handleHoverStart({id:index,color:colors.color})}
+                onHoverStart={()=>handleHoverStart({id:index,name:colors.name,color:colors.color})}
                 onHoverEnd={handleHoverEnd}
-                onClick={()=>setThemeColor({name:colors.name,color:colors.color})}
+                onClick={()=> setBoth({id:index,name:colors.name,color:colors.color})}
               >
                 {colors.name}
               </motion.li>

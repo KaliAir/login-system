@@ -8,7 +8,6 @@ export const Style = {
         width:"12rem",
         height:"100%",
         borderRadius:"0px 10px 10px 0px",
-        // zIndex:"-9"
     },
     containerColapse:{
         backgroundColor:"#FBF9F1",
@@ -20,7 +19,7 @@ export const Style = {
         height:"100%",
         transition: "left 0.7s ease",
         borderRadius:"0px 10px 10px 0px",
-        // zIndex:"-9"
+
     },
     buttonColapse:{
         display:"grid",
@@ -59,8 +58,18 @@ export const Style = {
     },
     asideNavigationContainer:{
         display:"grid",
+        gridTemplateRows:"auto 1fr"
     },
     span:{
         width:"100%"
+    },
+    asideNavItems:{
+        display:"grid"
+    },
+    sideNavItems:{
+        padding:".8rem 0px .8rem .5rem",
+        boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
+        borderRadius:"0px 0px 1.5rem 0px",
+        fontWeight:"600",
     }
 }

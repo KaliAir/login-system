@@ -12,7 +12,7 @@ const themeColors = (set)=>({
         set((state)=>({
             themeColor: theme
         }))
-    }
+    },
 })
 
 const useThemeColors = create(themeColors)

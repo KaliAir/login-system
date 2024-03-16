@@ -8,11 +8,13 @@ import useThemeColors from "@/zustand/theme/themeColor";
 function ThemDropDown() {
   const [drop, setDrop] = useState(false);
 
-  const {hoverColor,setHoverColor,themeColor,setThemeColor} = useThemeColors((state)=>({
+  const {hoverColor,setHoverColor,themeColor,setThemeColor,textColor,setTextColor} = useThemeColors((state)=>({
     hoverColor: state.hoverColor,
     setHoverColor: state.setHoverColor,
     themeColor: state.themeColor,
     setThemeColor: state.setThemeColor,
+    textColor: state.textColor,
+    setTextColor: state.setTextColor
   }))
 
   const themeColors = [

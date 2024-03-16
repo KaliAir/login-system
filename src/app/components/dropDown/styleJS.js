@@ -35,5 +35,5 @@ export const Style = {
     shirt:{
         fontSize:"1.3rem",
         color:"yellow",
-    }
+    },
 }

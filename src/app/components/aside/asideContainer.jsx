@@ -14,9 +14,18 @@ import { IoIosArrowForward,IoIosArrowBack } from "react-icons/io";
 
 
 function AsideContainer() {
-  const [floatItem,setFloatItem] = React.useState(null)
-  const [hoverNavItems,setHoverNavItems] = React.useState(null)
+  const [floatItem,setFloatItem] = useState(null)
+  const [hoverNavItems,setHoverNavItems] = useState(null)
   const phoneGear = useMediaQuery({maxWidth:767})
+  const [phoneGearState,setPhoneGearState] = useState(null)
+
+  useEffect(()=>{
+    if(phoneGear){
+      setPhoneGearState(true)
+    }else{
+      setPhoneGearState(false)
+    }
+  },[phoneGear])
 
 const {asideButtonColapseState, asideButtonColapseCall} = useBooleanState((state)=>({
   asideButtonColapseState: state.asideButtonColapseState,
@@ -29,14 +38,13 @@ const {themeColor} = useThemeColors((state)=>({
 
   
   return (
-    <aside style={!asideButtonColapseState?Style.container:Style.containerColapse}>
-      <span style={phoneGear?{...Style.buttonColapseSmall,backgroundColor:`${themeColor.color}`}:{...Style.buttonColapse,backgroundColor:`${themeColor.color}`}} onClick={()=> asideButtonColapseCall(!asideButtonColapseState)}>
+    <aside style={!asideButtonColapseState?Style.container : Style.containerColapse}>
+      <span style={phoneGearState?{...Style.buttonColapseSmall,backgroundColor : `${themeColor.color}`}:{...Style.buttonColapse,backgroundColor : `${themeColor.color}`}} onClick={()=> asideButtonColapseCall(!asideButtonColapseState)}>
           <motion.span
-            style={phoneGear?Style.gearContainerSmall:Style.gearContainer}
-            whileHover={Motionimate.infiniteRotate}
+            style={phoneGearState?Style.gearContainerSmall:Style.gearContainer}
+            whileHover={phoneGearState?Motionimate.hoverButton:Motionimate.infiniteRotate}
           >
-            {!phoneGear?(<VscGear style={Style.buttonGear} />):
-            asideButtonColapseState?(<IoIosArrowForward style={Style.buttonGear} />):(<IoIosArrowBack style={Style.buttonGear} />)}
+            {!phoneGearState?(<VscGear style={Style.buttonGear}/>):asideButtonColapseState?(<IoIosArrowForward style={Style.buttonGear}/>):(<IoIosArrowBack style={Style.buttonGear}/>)}
           </motion.span>
       </span>
       <div style={Style.asideNavigationContainer}>

@@ -10,9 +10,12 @@ import Link from 'next/link';
 import useThemeColors from '@/zustand/theme/themeColor';
 import { useMediaQuery } from 'react-responsive';
 import { sideNavItems } from './sideNavItems';
+import { IoIosArrowForward,IoIosArrowBack } from "react-icons/io";
 
 
 function AsideContainer() {
+  const [floatItem,setFloatItem] = React.useState(null)
+  const [hoverNavItems,setHoverNavItems] = React.useState(null)
   const phoneGear = useMediaQuery({maxWidth:767})
 const {asideButtonColapseState, asideButtonColapseCall} = useBooleanState((state)=>({
   asideButtonColapseState: state.asideButtonColapseState,
@@ -22,15 +25,17 @@ const {asideButtonColapseState, asideButtonColapseCall} = useBooleanState((state
 const {themeColor} = useThemeColors((state)=>({
   themeColor: state.themeColor
 }))
+
   
   return (
     <aside style={!asideButtonColapseState?Style.container:Style.containerColapse}>
-      <span style={{...Style.buttonColapse,backgroundColor:`${themeColor.color}`}} onClick={()=> asideButtonColapseCall(!asideButtonColapseState)}>
+      <span style={phoneGear?{...Style.buttonColapseSmall,backgroundColor:`${themeColor.color}`}:{...Style.buttonColapse,backgroundColor:`${themeColor.color}`}} onClick={()=> asideButtonColapseCall(!asideButtonColapseState)}>
           <motion.span
-            style={Style.gearContainer}
+            style={phoneGear?Style.gearContainerSmall:Style.gearContainer}
             whileHover={Motionimate.infiniteRotate}
           >
-            <VscGear style={Style.buttonGear} />
+            {!phoneGear?(<VscGear style={Style.buttonGear} />):
+            asideButtonColapseState?(<IoIosArrowForward style={Style.buttonGear} />):(<IoIosArrowBack style={Style.buttonGear} />)}
           </motion.span>
       </span>
       <div style={Style.asideNavigationContainer}>
@@ -46,7 +51,14 @@ const {themeColor} = useThemeColors((state)=>({
           {
             sideNavItems.map((items,index)=>{
               return(
-                <Link style={Style.sideNavItems} href={items.route} key={index}>{items.name}</Link>
+                <motion.div style={floatItem === index?{...Style.sideNavItems,borderBottom:`4px solid ${themeColor.color}`}:Style.sideNavItems}
+                onHoverStart={()=> setHoverNavItems(index)}
+                onHoverEnd={()=> setHoverNavItems(null)}
+                key={index}
+                onClick={()=> setFloatItem(index)}
+                >
+                  <Link  href={items.route}  style={hoverNavItems === index?{color:themeColor.color}:{color:'rgb(0,0,0,.8)'}}>{items.name}</Link>
+                </motion.div>
               )
             })
           }

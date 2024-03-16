@@ -34,6 +34,19 @@ export const Style = {
         boxShadow: "10px 0px 10px -5px rgba(0, 0, 0, 0.5)",
         zIndex:"-1"
     },
+    buttonColapseSmall:{
+        display:"grid",
+        // backgroundColor:"#78A083",
+        position:"absolute",
+        width:"5rem",
+        height:"3.2rem",
+        borderRadius:"3rem",
+        right:"-30px",
+        bottom:"50%",
+        cursor:"pointer",
+        boxShadow: "10px 0px 10px -5px rgba(0, 0, 0, 0.5)",
+        zIndex:"-1"
+    },
     buttonGear:{
         width:"100%",
         height:"100%"
@@ -41,6 +54,14 @@ export const Style = {
     gearContainer:{
         width:"3rem",
         height:"3rem",
+        justifySelf:"end",
+        alignSelf:"center",
+        marginRight:".3rem",
+        borderRadius:"50%",
+    },
+    gearContainerSmall:{
+        width:"2rem",
+        height:"2rem",
         justifySelf:"end",
         alignSelf:"center",
         marginRight:".3rem",
@@ -71,5 +92,5 @@ export const Style = {
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
         borderRadius:"0px 0px 1.5rem 0px",
         fontWeight:"600",
-    }
+    },
 }

@@ -16,10 +16,14 @@ function ThemDropDown() {
   }))
 
   const themeColors = [
-    { name: "Ocean Blue", color: "skyblue" },
-    { name: "Idian Mekus", color: "indianred" },
-    { name: "Penoise Pink", color: "pink" },
-    { name: "Korean Leaf", color: "lightgreen" },
+    { name: "Simple Green", color: "#7F9F80" },
+    { name: "Moody Pink", color: "#FC819E" },
+    { name: "Clean Blue", color: "#51829B" },
+    { name: "Light Orange", color: "#ECB159" },
+    { name: "Spanish Red", color: "#9B4444" },
+    { name: "Maroon Red", color: "#6D2932" },
+    { name: "Summer Beige", color: "#FFCF81" },
+    { name: "Indian Red", color: "#BF3131" },
   ];
 
   const handleDrop = () => {

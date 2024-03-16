@@ -7,7 +7,7 @@ const themeColors = (set)=>({
             hoverColor: theme
         }))
     },
-    themeColor:{name:"Toledo Gold",color:"#EABE6C"},
+    themeColor:{name:"Light Orange",color:"#ECB159"},
     setThemeColor:(theme)=>{
         set((state)=>({
             themeColor: theme

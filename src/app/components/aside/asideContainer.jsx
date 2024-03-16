@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Style } from './styleJS'
 import { motion } from 'framer-motion'
 import { Motionimate } from '@/framerMotion/motionimate';
@@ -17,6 +17,7 @@ function AsideContainer() {
   const [floatItem,setFloatItem] = React.useState(null)
   const [hoverNavItems,setHoverNavItems] = React.useState(null)
   const phoneGear = useMediaQuery({maxWidth:767})
+
 const {asideButtonColapseState, asideButtonColapseCall} = useBooleanState((state)=>({
   asideButtonColapseState: state.asideButtonColapseState,
   asideButtonColapseCall: state.asideButtonColapseCall,
@@ -51,13 +52,13 @@ const {themeColor} = useThemeColors((state)=>({
           {
             sideNavItems.map((items,index)=>{
               return(
-                <motion.div style={floatItem === index?{...Style.sideNavItems,borderBottom:`4px solid ${themeColor.color}`}:Style.sideNavItems}
-                onHoverStart={()=> setHoverNavItems(index)}
+                <motion.div style={floatItem && floatItem === items.id?{...Style.sideNavItems,borderBottom:`4px solid ${themeColor.color}`}:Style.sideNavItems}
+                onHoverStart={()=> setHoverNavItems(items.id)}
                 onHoverEnd={()=> setHoverNavItems(null)}
                 key={index}
-                onClick={()=> setFloatItem(index)}
+                onClick={()=> setFloatItem(items.id)}
                 >
-                  <Link  href={items.route}  style={hoverNavItems === index?{color:themeColor.color}:{color:'rgb(0,0,0,.8)'}}>{items.name}</Link>
+                  <Link  href={items.route}  style={hoverNavItems && hoverNavItems === items.id?{color:themeColor.color}:{color:'rgb(0,0,0,.8)'}}>{items.name}</Link>
                 </motion.div>
               )
             })

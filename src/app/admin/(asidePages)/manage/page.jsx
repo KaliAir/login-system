@@ -1,5 +1,4 @@
 import React from 'react'
-import { Style } from './styleJS'
 
 function Manage() {
   return (

@@ -6,12 +6,15 @@ export const Style = {
         position:"relative",
         backgroudColor:"white",
         zIndex:"-12",
+        padding:"1.5rem 0rem 0rem 2.3rem"
     },
     // Section the content of the app <section></section>
     section:{
         height:"100%",
+        width:"100%",
         position:"relative",
         zIndex:"-13",
+        overflowY:"scroll",
     },
     // Note this is the back of the Aside Element that have to columns(aside nav is not including to this layout) 
     contentWrapper:{

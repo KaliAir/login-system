@@ -29,7 +29,7 @@ export const Style = {
         width:"5rem",
         height:"3.7rem",
         borderRadius:"3rem",
-        right:"-45px",
+        right:"-35px",
         bottom:"50%",
         cursor:"pointer",
         boxShadow: "10px 0px 10px -5px rgba(0, 0, 0, 0.5)",

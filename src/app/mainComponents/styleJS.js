@@ -20,7 +20,7 @@ export const Style = {
         gridTemplateColumns:"12rem 1fr",
         overflow:"hidden",
         zIndex:"-15",
-        
+        transition:"grid-template-columns 0.7s ease"
     },
     contentWrapperColapse:{
         display:"grid",
@@ -28,9 +28,10 @@ export const Style = {
         gridTemplateColumns:"1fr",
         overflow:"hidden",
         zIndex:"-15",
+        transition:"grid-template-columns 0.7s ease"
     },  
     span:{
         position:"relative",
-        zIndex:"-11"
-    }
+        zIndex:"-11",
+    },
 }

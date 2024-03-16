@@ -10,6 +10,10 @@ export const sideNavItems = [
     {
         name:"Sales History",
         route:"/admin/saleshistory"
-    }
+    },
+    {
+        name:"Deleted Items",
+        route:"/admin/deleteditems"
+    },
 
 ]

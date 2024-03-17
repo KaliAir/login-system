@@ -25,6 +25,18 @@ export async function POST(request){
                 error: "Email already exists"
             },{status: 400})
         }
+
+        const isEmailValid = (email) => {
+            const emailRegex = /^[^\s@]{5,}@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        };
+        
+        if(!isEmailValid){
+            return NextResponse.json({
+                error: "Invalid Email,must have 5 char. above"
+            })
+        }
+          
         const {status,message} = isPasswordValid(password);
         if(status === false){
             return NextResponse.json({

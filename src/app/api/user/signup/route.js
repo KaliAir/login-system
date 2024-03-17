@@ -20,22 +20,22 @@ export async function POST(request){
                 error: "Input fields cannot be empty"
             },{status: 400})
         }
+        const isEmailValid = (email) => {
+            const emailRegex = /^[^\s@]{5,}@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        };
+        
+        if(!isEmailValid(email)){
+            return NextResponse.json({
+                error: "Invalid Email,must have 5 char. above"
+            },{status:400})
+        }
         if(userCheck){
             return NextResponse.json({
                 error: "Email already exists"
             },{status: 400})
         }
 
-        const isEmailValid = (email) => {
-            const emailRegex = /^[^\s@]{5,}@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        };
-        
-        if(!isEmailValid){
-            return NextResponse.json({
-                error: "Invalid Email,must have 5 char. above"
-            })
-        }
           
         const {status,message} = isPasswordValid(password);
         if(status === false){

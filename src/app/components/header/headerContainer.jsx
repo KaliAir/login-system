@@ -10,7 +10,7 @@ function HeaderContainer() {
   }))
   return (
     <div style={{...Style.container,backgroundColor:`${themeColor.color}`}}>
-      <p>Notice: this is notice from the admin</p>
+      <p className='text-sm sm:text-lg'>Notice: this is notice from the admin</p>
       <ThemDropDown/>
     </div>
 

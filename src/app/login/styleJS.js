@@ -12,10 +12,9 @@ export const Style  = {
     form:{
         display: "grid",
         placeContent: "center",
-        // gridTemplateRows: ".5fr 1.5fr 1fr 1fr .5fr .5fr .5fr 1fr",
         backgroundColor: "white",
         padding: "20px 30px",
-        gridRowGap: "20px",
+        gridRowGap: ".7rem",
         borderRadius: "15px",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
         position: "relative",
@@ -27,8 +26,6 @@ export const Style  = {
         placeSelf: "center",
         fontWeight: "600",
         color: "rgb(0,0,0,.8)",
-        padding: "5px 4rem",
-        borderRadius: "10px"
     },
     label:{
         display: "grid",
@@ -37,6 +34,20 @@ export const Style  = {
         boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
         padding: "0px 5px",
         borderRadius: "5px",
+    },
+    labelPassword:{
+        display: "grid",
+        gridTemplateColumns: "auto 1fr auto",
+        gridColumnGap: "10px",
+        boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+        padding: "0px 5px",
+        borderRadius: "5px",
+    },
+    labelEye:{
+        placeSelf:"center",
+        fontSize:"1.2rem",
+        cursor:"pointer",
+        color:"rgb(0,0,0,.8)"
     },
     input:{
         height: "3rem",
@@ -62,7 +73,13 @@ export const Style  = {
         fontWeight: "700",
     },
     signUpForget:{
-        color: "rgb(0,0,0,.9)"
+        color: "rgb(0,0,0,.7)",
+        justifySelf:"end",
+        textShadow: "-2px 3px 2px rgba(0, 0, 0, .2)"
+    },
+    signUpSign:{
+        color: "rgb(0,0,0,.7)",
+        textShadow: "-2px 3px 2px rgba(0, 0, 0, .2)"
     },
     button:{
         backgroundImage: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
@@ -93,7 +110,10 @@ export const Style  = {
         placeSelf: "center",
         fontSize: ".9rem",
         fontWeight: "600",
-        color: "rgb(0,0,0,.8)"
+        color: "rgb(0,0,0,.8)",
+        borderBottom:"4px solid rgb(0,0,0,.4)",
+        borderRadius:"50%",
+        paddingBottom:".7rem"
     },
     signInWith:{
         display: "grid",

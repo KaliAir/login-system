@@ -7,6 +7,7 @@ export const Style = {
         height:"3rem",
         padding:"0px 3rem",
         position:"relative",
-        zIndex:"-3"
+        zIndex:"-3",
     },
+    
 }

@@ -17,6 +17,7 @@ import { generateToken } from "@/fetch/generatetoken";
 import { verifyemail } from "@/fetch/verifyemail";
 import { send } from "@/fetch/send";
 import { isverified } from "@/fetch/isverified";
+import { LuEye,LuEyeOff } from "react-icons/lu";
 
 
 function LoginPage() {
@@ -24,6 +25,7 @@ function LoginPage() {
   const {data:session,status} = useSession();
   const [loginError,setLoginError] = useState("");
   const [isLoading,setIsLoading] = useState(false);
+  const [eyeState, setEyeState] = useState(false);
 
   useEffect(()=>{
     if(status === 'authenticated'){
@@ -84,7 +86,7 @@ function LoginPage() {
       <h1 style={Style.login}>
         Login
       </h1>
-      <p style={Style.error}>{loginError}</p>
+      {loginError?<p style={Style.error}>{loginError}</p>:""}
       <div>
         <p>Email</p>
         <label htmlFor="email" style={Style.label}>
@@ -100,36 +102,19 @@ function LoginPage() {
       </div>
       <div>
         <p>Password</p>
-        <label htmlFor="password" style={Style.label}>
+        <label htmlFor="password" style={Style.labelPassword}>
           <MdLockOutline style={Style.passwordIcon} />
           <input
-            type="password"
+            type={eyeState?"text":"password"}
             name="password"
             id="password"
             placeholder="Type your password"
             style={Style.input}
           />
+          {!eyeState?(<LuEyeOff style={Style.labelEye} onClick={()=>setEyeState(true)}/>):(<LuEye style={Style.labelEye} onClick={()=>setEyeState(false)}/>)}
         </label>
       </div>
-      <div style={Style.signFor}>
-        <motion.div
-          whileHover={{
-            color:"#78A083"
-          }}
-          style={Style.signUpForget}
-        >
-          <Link href='/login/signup'>Sign Up</Link>
-        </motion.div>
-
-        <motion.div
-          whileHover={{
-            color:"#D04848"
-          }}
-          style={Style.signUpForget}
-        >
-          <Link href='/login/forgot'>Forgot password</Link>
-        </motion.div>
-      </div>
+      
       <motion.button
         style={!isLoading?Style.button:Style.buttonLoad}
         whileHover={{
@@ -139,7 +124,7 @@ function LoginPage() {
       >
         {!isLoading?"LOGIN":"WAIT"}
       </motion.button>
-      <p style={Style.or}>Or Sign Up Using</p>
+      <p style={Style.or}>Or Sign In Using</p>
       <div style={Style.signInWith}>
         <motion.div
         whileHover={{
@@ -161,6 +146,25 @@ function LoginPage() {
         }}
         >
           <AiFillTwitterCircle style={Style.twitterIcon} onClick={handleSignInWithTwitter}/>
+        </motion.div>
+      </div>
+      <div style={Style.signFor}>
+        <motion.div
+          whileHover={{
+            color:"#78A083"
+          }}
+          style={Style.signUpSign}
+        >
+          <Link href='/login/signup'>Sign Up</Link>
+        </motion.div>
+
+        <motion.div
+          whileHover={{
+            color:"#D04848"
+          }}
+          style={Style.signUpForget}
+        >
+          <Link href='/login/forgot'>Forgot password</Link>
         </motion.div>
       </div>
     </form>

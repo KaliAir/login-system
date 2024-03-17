@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcryptjs from "bcryptjs"
 import { isPasswordValid } from "@/validateFormPassword/validateformpassword";
-import { isEmailValid } from "@/validateFormEmail/validateformemail";
-
 
 const prisma = new PrismaClient();
 
@@ -21,11 +19,14 @@ export async function POST(request){
                 error: "Input fields cannot be empty"
             },{status: 400})
         }
-        const regexEmail = isEmailValid(email)
+        const isEmailValid = (checkmail) => {
+            const emailRegex = /^[^\s@]{5,}@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(checkmail);
+        };
         
-        if(!regexEmail){
+        if(!isEmailValid(email)){
             return NextResponse.json({
-                error: "Invalid Email"
+                error: "Invalid email, must have 5 char. above"
             },{status:400})
         }
         if(userCheck){

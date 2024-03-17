@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcryptjs from "bcryptjs"
 import { isPasswordValid } from "@/validateFormPassword/validateformpassword";
-import { isEmailValid, isEmailValid } from "@/validateFormEmail/validateformemail";
+import { isEmailValid } from "@/validateFormEmail/validateformemail";
 
 
 const prisma = new PrismaClient();

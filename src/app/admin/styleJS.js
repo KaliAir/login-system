@@ -12,7 +12,6 @@ export const Style = {
     // Admin Landing Page.jsx
     adminLandingPage:{
         height:"100%",
-        padding:"1rem 3rem",
         position:"relative",
         zIndex:"-14",
     },

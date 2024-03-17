@@ -18,7 +18,7 @@ export const Style = {
         position:"absolute",
         backgroundColor:"white",
         width:"9rem",
-        top:"2.03rem",
+        top:"2.7rem",
         zIndex:"-2",
         borderRadius:"5px",
         fontSize:"1rem",

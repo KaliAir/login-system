@@ -11,6 +11,7 @@ import useThemeColors from '@/zustand/theme/themeColor';
 import { useMediaQuery } from 'react-responsive';
 import { sideNavItems } from './sideNavItems';
 import { IoIosArrowForward,IoIosArrowBack } from "react-icons/io";
+import { usePathname } from 'next/navigation';
 
 
 function AsideContainer() {
@@ -18,6 +19,7 @@ function AsideContainer() {
   const [hoverNavItems,setHoverNavItems] = useState(null)
   const phoneGear = useMediaQuery({maxWidth:767})
   const [phoneGearState,setPhoneGearState] = useState(null)
+  const path = usePathname()
 
   useEffect(()=>{
     if(phoneGear){
@@ -36,7 +38,6 @@ const {themeColor} = useThemeColors((state)=>({
   themeColor: state.themeColor
 }))
 
-  
   return (
     <aside style={!asideButtonColapseState?Style.container : Style.containerColapse}>
       <span style={phoneGearState?{...Style.buttonColapseSmall,backgroundColor : `${themeColor.color}`}:{...Style.buttonColapse,backgroundColor : `${themeColor.color}`}} onClick={()=> asideButtonColapseCall(!asideButtonColapseState)}>
@@ -60,11 +61,10 @@ const {themeColor} = useThemeColors((state)=>({
           {
             sideNavItems.map((items,index)=>{
               return(
-                <motion.div style={floatItem && floatItem === items.id?{...Style.sideNavItems,borderBottom:`4px solid ${themeColor.color}`}:Style.sideNavItems}
+                <motion.div style={path === items.route?{...Style.sideNavItems,borderBottom:`4px solid ${themeColor.color}`}:Style.sideNavItems}
                 onHoverStart={()=> setHoverNavItems(items.id)}
                 onHoverEnd={()=> setHoverNavItems(null)}
                 key={index}
-                onClick={()=> setFloatItem(items.id)}
                 >
                   <Link  href={items.route}  style={hoverNavItems && hoverNavItems === items.id?{color:themeColor.color}:{color:'rgb(0,0,0,.8)'}}>{items.name}</Link>
                 </motion.div>

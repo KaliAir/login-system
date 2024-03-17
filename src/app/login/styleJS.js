@@ -13,13 +13,14 @@ export const Style  = {
         display: "grid",
         placeContent: "center",
         backgroundColor: "white",
-        padding: "20px 30px",
+        padding: "1rem 1rem",
         gridRowGap: ".7rem",
         borderRadius: "15px",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
         position: "relative",
         zIndex: "30",
-        border:"2px solid rgb(0,0,0,.2)"
+        border:"2px solid rgb(0,0,0,.2)",
+        width:"20rem"
     
     },
     login:{

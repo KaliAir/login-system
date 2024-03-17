@@ -20,7 +20,7 @@ export const Style  = {
         position: "relative",
         zIndex: "30",
         border:"2px solid rgb(0,0,0,.2)",
-        width:"20rem"
+        width:"22rem"
     
     },
     login:{

@@ -30,11 +30,14 @@ function SignUp() {
       if (success) {
         const { email, token } = await verifyemail({ email: dataObj.email });
         const {data} = await send({ email, token });
-        if(data.error !== null){
+        if(data?.error !== null){
           const storeEmail = {email}
           localStorage.setItem('myData',JSON.stringify(storeEmail));
           setSubmitting(false);
           router.push(`/login/signup/${email}`);
+        }else{
+          setSubmitting(false);
+          setErrorRes("Error email provider busy")
         }
       }
     } else {

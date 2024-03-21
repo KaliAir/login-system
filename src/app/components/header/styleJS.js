@@ -4,7 +4,7 @@ export const Style = {
         gridTemplateColumns:"1fr auto",
         placeItems:"center",
         // backgroundColor:"#78A083",
-        height:"3rem",
+        height:"100%",
         padding:"0px 3rem",
         position:"relative",
         zIndex:"-3",

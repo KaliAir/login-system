@@ -3,7 +3,7 @@ export const Style = {
         display:"grid",
         gridTemplateColumns:"4rem 1fr auto",
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-        height:"4rem",
+        height:"100%",
         padding:"0px 1.5rem",
         position:"relative",
         zIndex:"-7"

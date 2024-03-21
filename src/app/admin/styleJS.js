@@ -2,7 +2,7 @@ export const Style = {
     // Admin Layout Container <div></div>
     container:{
         color:"rgb(0,0,0,.7)",
-        height:"100dvh",
+        // height:"100dvh",
         position:"relative",
         backgroundColor:"white",
         zIndex:"-19",
@@ -27,10 +27,12 @@ export const Style = {
     },
     nav:{
         position:"relative",
-        zIndex:"-8"
+        zIndex:"-8",
+        height:"7dvh"
     },
     header:{
         position:"relative",
-        zIndex:"-4"
+        zIndex:"-4",
+        height:"5dvh"
     },
 }

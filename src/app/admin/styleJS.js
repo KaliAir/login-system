@@ -2,12 +2,10 @@ export const Style = {
     // Admin Layout Container <div></div>
     container:{
         color:"rgb(0,0,0,.7)",
-        // height:"100dvh",
+        height:"100dvh",
         position:"relative",
         backgroundColor:"white",
         zIndex:"-19",
-        
-        
     },
     // Admin Landing Page.jsx
     adminLandingPage:{
@@ -27,12 +25,10 @@ export const Style = {
     },
     nav:{
         position:"relative",
-        zIndex:"-8",
-        height:"7dvh"
+        zIndex:"-8"
     },
     header:{
         position:"relative",
-        zIndex:"-4",
-        height:"5dvh"
+        zIndex:"-4"
     },
 }

@@ -2,7 +2,7 @@ export const Style = {
    
     // Main Container of Admin Layout <main></main>
     main:{
-        height:"78dvh",
+        height:"80dvh",
         position:"relative",
         backgroudColor:"white",
         zIndex:"-12",

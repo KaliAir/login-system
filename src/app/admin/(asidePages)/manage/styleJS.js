@@ -94,6 +94,7 @@ export const Style = {
         backgroundColor:"white",
         height:"100%",
         borderRadius:"0rem .3rem .3rem 0rem",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
     },
     categoryIcon:{
         fontSize:"1.7rem",
@@ -104,5 +105,15 @@ export const Style = {
         display:"grid",
         gridTemplateColumns:"1fr auto",
 
-    }
+    },
+    plusClose:{
+        placeSelf:"center",
+        fontWeight:"700",
+        fontSize:"1.4rem",
+        cursor:"pointer",
+        backgroundColor:"white",
+        borderRadius:"50%",
+        placeSelf:"center",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+    },
 }

@@ -5,7 +5,7 @@ import { FaPlus, FaSearch } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { MdCategory } from "react-icons/md";
 import useThemeColors from "@/zustand/theme/themeColor";
-import { motion } from "framer-motion";
+import { motion,AnimatePresence } from "framer-motion";
 import useBooleanState from "@/zustand/boolState/trueOrfalse";
 
 function Manage() {
@@ -40,23 +40,35 @@ function Manage() {
             Add Category Form
           </div>
           <MdCategory style={Style.categoryIcon} />
+          <AnimatePresence>
           {!searchButton ? (
-            <p style={Style.categoryLabel}>Category</p>
+            <motion.p style={Style.categoryLabel}
+            key="modal"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            >Category</motion.p>
           ) : (
-            <label htmlFor="search" style={Style.label}>
+            <motion.label htmlFor="search" style={Style.label}
+            key="modal"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            >
               <input
                 type="text"
                 name="search"
                 id="search"
                 placeholder="Search category..."
-                style={Style.input}
+                style={{...Style.input}}
               />
               <MdClose
                 style={Style.mdClose}
                 onClick={() => setSearchButton(!searchButton)}
               />
-            </label>
+            </motion.label>
           )}
+          </AnimatePresence>
 
           {!searchButton ? (
             <motion.span
@@ -72,7 +84,7 @@ function Manage() {
             ""
           )}
 
-          <motion.span
+          {!addButton?(<motion.span
             style={Style.addIcon}
             whileHover={{
               scale: 1.1,
@@ -80,7 +92,17 @@ function Manage() {
             onClick={()=> setAddButton(!addButton)}
           >
             <FaPlus />
-          </motion.span>
+          </motion.span>):
+          (<motion.span
+            style={Style.addIcon}
+            whileHover={{
+              scale: 1.1,
+            }}
+            onClick={()=> setAddButton(!addButton)}
+          >
+            <MdClose style={Style.plusClose}/>
+          </motion.span>)
+          }
         </div>
         {/* -----------------------------------Category Search and Add End's Here--------------- */}
         <ul style={Style.categoryListContainer}>

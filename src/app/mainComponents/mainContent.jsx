@@ -2,7 +2,7 @@
 import React,{useEffect, useState} from "react";
 import { Style } from "./styleJS";
 import AsideContainer from "../components/aside/asideContainer";
-import useBooleanState from "@/zustand/boolState/trueOrfalse";
+import useCreateObj from "@/zustand/tempValue/temporaryVal";
 import { useMediaQuery } from "react-responsive";
 
 
@@ -10,7 +10,7 @@ function MainContent({ children }) {
   const phone = useMediaQuery({maxWidth:767})
   const [phoneState,setPhoneState] = useState(null);
 
-  const {asideButtonColapseState} = useBooleanState((state)=>({
+  const {asideButtonColapseState} = useCreateObj((state)=>({
     asideButtonColapseState: state.asideButtonColapseState
   }))
 

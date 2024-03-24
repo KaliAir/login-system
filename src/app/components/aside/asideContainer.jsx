@@ -4,7 +4,7 @@ import { Style } from './styleJS'
 import { motion } from 'framer-motion'
 import { Motionimate } from '@/framerMotion/motionimate';
 import { VscGear } from 'react-icons/vsc';
-import useBooleanState from '@/zustand/boolState/trueOrfalse';
+import useCreateObj from '@/zustand/tempValue/temporaryVal';
 import Image from 'next/image';
 import Link from 'next/link';
 import useThemeColors from '@/zustand/theme/themeColor';
@@ -29,7 +29,7 @@ function AsideContainer() {
     }
   },[phoneGear])
 
-const {asideButtonColapseState, asideButtonColapseCall} = useBooleanState((state)=>({
+const {asideButtonColapseState, asideButtonColapseCall} = useCreateObj((state)=>({
   asideButtonColapseState: state.asideButtonColapseState,
   asideButtonColapseCall: state.asideButtonColapseCall,
 }))

@@ -25,22 +25,26 @@ export const Style = {
         position:"relative",  
     },
     addCategoryFormDown:{
+        display:"grid",
+        gridTemplateRows:"auto 1fr auto",
         position:"absolute",
         width:"100%",
         top:"3.1rem",
         backgroundColor:"white",
-        height:"28rem",
+        // height:"28rem",
         zIndex:"-1",
         borderRadius:".7rem",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
         transition:"top .5s ease"
     },
     addCategoryFormUp:{
+        display:"grid",
+        gridTemplateRows:"auto 1fr auto",
         position:"absolute",
         width:"100%",
-        top:"-20dvh",
+        top:"-60dvh",
         backgroundColor:"white",
-        height:"10rem",
+        // height:"10rem",
         zIndex:"-1",
         borderRadius:".7rem",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -50,7 +54,7 @@ export const Style = {
         display:"grid",
         gridTemplateColumns:"auto 1fr 2rem",
         padding:".5rem 1rem",
-        borderRadius:".3rem 0rem 1.3rem 0rem",
+        borderRadius:"0rem 0rem 1.3rem 0rem",
         fontSize:"1.1rem",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
         height:"3rem",
@@ -116,4 +120,49 @@ export const Style = {
         placeSelf:"center",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
     },
+    insertCat:{
+        display:"grid",
+        gridTemplateColumns:"1fr auto",
+        margin:".5rem",
+        padding:".5rem",
+        borderRadius:".5rem",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+
+    },
+    insertInput:{
+        outline:"none",
+        letterSpacing:".07rem",
+        fontWeight:"600",
+        width:"100%"
+    },
+    insertButton:{
+        fontSize:"1.6rem",
+        cursor:"pointer",
+    },
+    inertCatList:{
+        display:"grid",
+        margin:".5rem",
+    },
+    ulItems:{
+        display:"grid",
+        gridTemplateColumns:"1fr 1.5rem",
+        padding:".4rem",
+        boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+        fontWeight:"700",
+        color:"rgb(0,0,0,.6)",
+    },
+    listTrashIcon:{
+        cursor:"pointer",
+    },
+    submit:{
+        placeSelf:"center",
+        fontSize:"1.2rem",
+        fontWeight:"600",
+        padding:".3rem 1rem",
+        margin:".4rem 0rem",
+        borderRadius:".3rem",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+
+
+    }
 }

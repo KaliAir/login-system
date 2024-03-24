@@ -8,6 +8,20 @@ const booleanState = (set)=>({
             asideButtonColapseState: finalState
         }))
     },
+    searchButton:false,
+    setSearchButton:(finalState)=>{
+        set((state)=>({
+            searchButton: finalState,
+            addButton:false
+        }))
+    },
+    addButton:false,
+    setAddButton:(finalState)=>{
+        set((state)=>({
+            addButton: finalState,
+            searchButton:false
+        }))
+    },
 });
 
 const useBooleanState = create(booleanState);

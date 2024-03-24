@@ -3,7 +3,7 @@ export const Style = {
         display:"grid",
         placeItems:"center",
         // backgroundColor:"#78A083",
-        height:"5rem",
+        height:"4.9rem",
         fontSize:"1.3rem",
         fontWeight:"600",
     }

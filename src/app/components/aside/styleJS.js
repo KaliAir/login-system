@@ -8,7 +8,7 @@ export const Style = {
         width:"12rem",
         height:"100%",
         borderRadius:"0px 10px 10px 0px",
-        transition: "left 0.7s ease"
+        transition: "left 0.5s ease"
     },
     containerColapse:{
         backgroundColor:"#FBF9F1",
@@ -18,7 +18,7 @@ export const Style = {
         left:"-12rem",
         width:"12rem",
         height:"100%",
-        transition: "left 0.7s ease",
+        transition: "left 0.5s ease",
         borderRadius:"0px 10px 10px 0px",
 
     },

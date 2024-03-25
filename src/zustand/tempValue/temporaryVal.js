@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createCategory } from "@/fetch/createCategory";
+import { getCategory } from "@/fetch/getCategory";
 
 
 const createObj = (set)=>({
@@ -55,6 +56,19 @@ const createObj = (set)=>({
             submitButtonState: finalState
         }))
     },
+    showEditIcon:null,
+    setShowEditIcon:(id)=>{
+        set((state)=>({
+            showEditIcon: id
+        }))
+    },
+    editIconState:null,
+    setEditIconState:(id)=>{
+        set((state)=>({
+            editIconState: id
+        }))
+    },
+    // ----------------------------------Category-----------------------
     createCategory:(id)=>{
         set(async(state)=>{
             for(const catValue of state.insertList){
@@ -68,7 +82,15 @@ const createObj = (set)=>({
             state.setAddButton(false)
             state.clearCategory()
         })
+    },
+    catRes:[],
+    getCategory: async (userId)=>{
+        const categoryData = await getCategory(userId);
+        set((state)=>({
+            catRes: categoryData
+        }))
     }
+
 })
 
 const useCreateObj = create(createObj);

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Style } from "./styleJS";
-import { FaPlus, FaSearch, FaTrash } from "react-icons/fa";
+import { FaPlus, FaSearch, FaTrash, FaEdit, FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { MdCategory } from "react-icons/md";
 import { CgInsertAfterO } from "react-icons/cg";
@@ -42,6 +42,13 @@ function Manage() {
     setAddButton,
     submitButtonState,
     setSubmitButtonState,
+    getCategory,
+    catRes,
+    showEditIcon,
+    setShowEditIcon,
+    editIconState,
+    setEditIconState,
+
   } = useCreateObj((state) => ({
     insertList: state.insertList,
     setInsertList: state.setInserList,
@@ -54,8 +61,19 @@ function Manage() {
     addButton: state.addButton,
     setAddButton: state.setAddButton,
     submitButtonState: state.submitButtonState,
-    setSubmitButtonState: state.setSubmitButtonState
+    setSubmitButtonState: state.setSubmitButtonState,
+    getCategory: state.getCategory,
+    catRes: state.catRes,
+    showEditIcon: state.showEditIcon,
+    setShowEditIcon: state.setShowEditIcon,
+    editIconState: state.editIconState,
+    setEditIconState: state.setEditIconState
   }));
+  
+  useEffect(()=>{
+    getCategory(session?.user.id)
+  },[])
+
   const insertToArray = () => {
     if (insertValue.trim() !== "" && insertList.length < 5) {
       setInsertList(insertValue);
@@ -64,12 +82,17 @@ function Manage() {
   };
   const handleSubmit = ()=>{
     if(insertList.length > 0){
-      createCategory(session.user.id);
+      createCategory({userId: session?.user?.id});
       setInsertValue("");
       setSubmitButtonState(true)
     }
   }
+  const handleCategoryHover = ()=>{
+    setShowEditIcon(null);
+    setEditIconState(null);
+  }
 
+  
   return (
     <div style={Style.mainContainer}>
       <div style={Style.categoryContainer}>
@@ -226,14 +249,49 @@ function Manage() {
         </div>
         {/* -----------------------------------Category Search and Add End's Here--------------- */}
         <ul style={Style.categoryListContainer}>
-          <li>1</li>
-          <li>2</li>
-          <li>3</li>
-          <li>4</li>
-          <li>5</li>
-          <li>6</li>
-          <li>7</li>
-          <li>8</li>
+          {
+              catRes?.map((res)=>{
+              return(
+                <motion.li key={res.id} style={Style.categoryList}
+                onHoverStart={()=> setShowEditIcon(res.id)}
+                onHoverEnd={handleCategoryHover}
+                >
+                  <p>{res.category}</p>
+                  {showEditIcon && showEditIcon === res.id && editIconState !== res.id?
+                  <FaEdit style={Style.editCategoryIcon} onClick={()=> setEditIconState(res.id)}/>:
+                  editIconState && editIconState === res.id?
+                  <AnimatePresence>
+                  <motion.span style={Style.showCategoryEditItem}
+                    initial={{ right: "-2rem" }}
+                    animate={{ right: ".5rem" }}
+                    exit={{ right: "-2rem" }}
+                  >
+                    <motion.span style={Style.categoryEditPenIcon}
+                    whileHover={{
+                      color:"#78A083"
+                    }}
+                    >
+                      <FaPen/>
+                    </motion.span>
+                    <motion.span style={Style.categoryDeleteIcon}
+                    whileHover={{
+                      color:"#7D0A0A"
+                    }}
+                    >
+                      <FaTrash/>
+                    </motion.span>
+                  </motion.span>
+                  </AnimatePresence>:
+                  <motion.span
+                  initial={{ right: "-2rem" }}
+                  animate={{ right: ".5rem" }}
+                  exit={{ right: "-2rem" }}
+                  ></motion.span>
+                  }
+                </motion.li>
+              )
+            })
+          }
         </ul>
       </div>
       <div>Add Items</div>

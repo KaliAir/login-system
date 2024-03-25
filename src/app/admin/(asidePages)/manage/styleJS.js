@@ -12,7 +12,8 @@ export const Style = {
         margin:"0rem .5rem .5rem .5rem",
         borderRadius:"0rem 0rem .5rem .5rem",
         position:"relative",
-        zIndex:"-3"
+        zIndex:"-3",
+        overflow:"hidden", 
     },
     addCategoryContainer:{
         display:"grid",
@@ -22,7 +23,7 @@ export const Style = {
         fontSize:"1.1rem",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
         height:"3rem",
-        position:"relative",  
+        position:"relative", 
     },
     addCategoryFormDown:{
         display:"grid",
@@ -89,6 +90,7 @@ export const Style = {
         outline:"none",
         borderRadius:".3rem 0rem 0rem .3rem",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+        width:"100%",
     },
     mdClose:{
         placeSelf:"center",
@@ -162,7 +164,30 @@ export const Style = {
         margin:".4rem 0rem",
         borderRadius:".3rem",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-
-
-    }
+    },
+    categoryList:{
+        display:"grid",
+        gridTemplateColumns:"1fr auto",
+        boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+        fontWeight:"700",
+        color:"rgb(0,0,0,.6)",
+        padding:".4rem",
+        position:"relative",
+    },
+    editCategoryIcon:{
+        cursor:"pointer"
+    },
+    showCategoryEditItem:{
+        display:"flex",
+        gridColumnGap:"1rem",
+        position:"absolute",
+        right:".5rem",
+        top:".5rem",
+    },
+    categoryEditPenIcon:{
+        cursor:"pointer"
+    },
+    categoryDeleteIcon:{
+        cursor:"pointer"
+    },
 }

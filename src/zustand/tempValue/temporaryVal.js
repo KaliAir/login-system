@@ -84,12 +84,12 @@ const createObj = (set)=>({
         })
     },
     catRes:[],
-    getCategory: async (userId)=>{
-        const categoryData = await getCategory(userId);
+    getCategories: async(catId)=>{
+        const categoryData = await getCategory(catId);
         set((state)=>({
             catRes: categoryData
         }))
-    }
+    },
 
 })
 

@@ -1,0 +1,52 @@
+/* Pagination Container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+    align-items: center;
+    position: relative;
+    z-index: -4;
+  }
+  
+  /* Page Number Links */
+  .page-num {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .page-num:hover {
+    background-color: #333;
+    color: #f5f5f5;
+  }
+  
+  /* Active Page Link */
+  .active {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  /* Previous and Next Links */
+  .previous,
+  .next {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .previous:hover,
+  .next:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Styling for "..." Break Label */
+  .break-label {
+    margin: 0 5px;
+  }

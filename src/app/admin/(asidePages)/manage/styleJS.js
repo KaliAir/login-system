@@ -13,7 +13,6 @@ export const Style = {
         borderRadius:"0rem 0rem .5rem .5rem",
         position:"relative",
         zIndex:"-3",
-        overflow:"hidden", 
     },
     addCategoryContainer:{
         display:"grid",

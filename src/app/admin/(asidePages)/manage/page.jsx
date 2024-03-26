@@ -10,10 +10,14 @@ import useCreateObj from "@/zustand/tempValue/temporaryVal";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import { useSession } from "next-auth/react";
+import { useDebounce } from "use-debounce";
+import ReactPaginate from "react-paginate";
+import './styleCSS.css'
 
 function Manage() {
   const [insertValue, setInsertValue] = useState("");
   const {data:session} = useSession();
+  
   // -----------------Responsive Breaking Points------------
   const sm = useMediaQuery({ maxWidth: 640 });
   const [smScreen, setSmScreen] = useState(null);
@@ -25,6 +29,8 @@ function Manage() {
     }
   }, [sm]);
   //------------------End Responsive------------------------------
+
+
   const { themeColor } = useThemeColors((state) => ({
     themeColor: state.themeColor,
   }));
@@ -42,7 +48,7 @@ function Manage() {
     setAddButton,
     submitButtonState,
     setSubmitButtonState,
-    getCategory,
+    getCategories,
     catRes,
     showEditIcon,
     setShowEditIcon,
@@ -62,17 +68,14 @@ function Manage() {
     setAddButton: state.setAddButton,
     submitButtonState: state.submitButtonState,
     setSubmitButtonState: state.setSubmitButtonState,
-    getCategory: state.getCategory,
+    getCategories: state.getCategories,
     catRes: state.catRes,
     showEditIcon: state.showEditIcon,
     setShowEditIcon: state.setShowEditIcon,
     editIconState: state.editIconState,
     setEditIconState: state.setEditIconState
   }));
-  
-  useEffect(()=>{
-    getCategory(session?.user.id)
-  },[])
+
 
   const insertToArray = () => {
     if (insertValue.trim() !== "" && insertList.length < 5) {
@@ -92,6 +95,55 @@ function Manage() {
     setEditIconState(null);
   }
 
+  useEffect(()=>{
+    getCategories(session?.user.id)
+  },[])
+  // ----------------------------Search Category Process-------------------
+  const [searchVal, setSearchVal] = useState("")
+  const [bounceVal] = useDebounce(searchVal,400)
+  const [filterVal,setFilterVal] = useState([])
+  const [currentCategory, setCurrentCategory] = useState([])
+  const [catOffset, setCatOffset] = useState(0)
+  const [pageCount, setPageCount] = useState(1)
+  const [selected, setSelected] = useState(0)
+  const categoryPerPage = 10;
+
+  const handleSearchVal = (e)=>{
+    e.preventDefault()
+    setSearchVal(e.target.value)
+  }
+  useEffect(()=>{
+    if(catRes.length > 0){
+      const filterData = catRes.filter((res)=>{
+        return bounceVal?
+        res.category.toLowerCase().includes(bounceVal.toLowerCase())
+        : true;
+      })
+      setFilterVal(filterData)
+    }
+  },[bounceVal,catRes])
+
+  const handleCloseSearchButton = ()=>{
+    setSearchButton(!searchButton)
+    setSearchVal("")
+  }
+  useEffect(()=>{
+    const endOffset = catOffset + categoryPerPage
+    if(catRes.length > 0){
+      setCurrentCategory(filterVal.slice(catOffset, endOffset))
+      setPageCount(Math.ceil(filterVal.length / categoryPerPage))
+    }
+  },[filterVal, catOffset, categoryPerPage])
+
+  const handlePageClick = (event) => {
+    if (catRes.length > 0) {
+      setSelected(event.selected);
+      const newOffset = (event.selected * itemsPerPage) % filter.length;
+      setCatOffset(newOffset);
+    }
+  };
+
+  // ----------------------------Search Category End----------------------
   
   return (
     <div style={Style.mainContainer}>
@@ -202,10 +254,12 @@ function Manage() {
                   id="search"
                   placeholder="Search category..."
                   style={{ ...Style.input }}
+                  value={searchVal}
+                  onChange={handleSearchVal}
                 />
                 <MdClose
                   style={Style.mdClose}
-                  onClick={() => setSearchButton(!searchButton)}
+                  onClick={handleCloseSearchButton}
                 />
               </motion.label>
             )}
@@ -250,7 +304,7 @@ function Manage() {
         {/* -----------------------------------Category Search and Add End's Here--------------- */}
         <ul style={Style.categoryListContainer}>
           {
-              catRes?.map((res)=>{
+             catRes.length > 0 && currentCategory?.map((res)=>{
               return(
                 <motion.li key={res.id} style={Style.categoryList}
                 onHoverStart={()=> setShowEditIcon(res.id)}
@@ -293,6 +347,21 @@ function Manage() {
             })
           }
         </ul>
+        <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              previousLabel="<"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              pageLinkClassName="page-num"
+              previousLinkClassName="page-num"
+              nextLinkClassName="page-num"
+              activeLinkClassName="active"
+              forcePage={selected}
+            />
       </div>
       <div>Add Items</div>
       <div>Item Detials</div>

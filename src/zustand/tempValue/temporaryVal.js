@@ -69,6 +69,12 @@ const createObj = (set)=>({
         }))
     },
     // ----------------------------------Category-----------------------
+    categoryRefetch:0,
+    setCategoryRefetch:()=>{
+        set((state)=>({
+            categoryRefetch: state.categoryRefetch + 1,
+        }));
+    },
     createCategory:(id)=>{
         set(async(state)=>{
             for(const catValue of state.insertList){
@@ -78,6 +84,7 @@ const createObj = (set)=>({
                     userId
                 })
             }
+            state.setCategoryRefetch()
             state.setSubmitButtonState(false)
             state.setAddButton(false)
             state.clearCategory()

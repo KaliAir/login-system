@@ -29,9 +29,10 @@ function AsideContainer() {
     }
   },[phoneGear])
 
-const {asideButtonColapseState, asideButtonColapseCall} = useCreateObj((state)=>({
+const {asideButtonColapseState, asideButtonColapseCall,setCategoryRefetch} = useCreateObj((state)=>({
   asideButtonColapseState: state.asideButtonColapseState,
   asideButtonColapseCall: state.asideButtonColapseCall,
+  setCategoryRefetch: state.setCategoryRefetch
 }))
 
 const {themeColor} = useThemeColors((state)=>({
@@ -66,7 +67,12 @@ const {themeColor} = useThemeColors((state)=>({
                 onHoverEnd={()=> setHoverNavItems(null)}
                 key={index}
                 >
-                  <Link  href={items.route}  style={hoverNavItems && hoverNavItems === items.id?{color:themeColor.color}:{color:'rgb(0,0,0,.8)'}}>{items.name}</Link>
+                  <Link  href={items.route}  style={hoverNavItems && hoverNavItems === items.id?{color:themeColor.color}:{color:'rgb(0,0,0,.8)'}}
+                  onClick={()=>{
+                    const linkState = items.name === "Manage"
+                    if(linkState) setCategoryRefetch()
+                  }}
+                  >{items.name}</Link>
                 </motion.div>
               )
             })

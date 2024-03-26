@@ -54,6 +54,8 @@ function Manage() {
     setShowEditIcon,
     editIconState,
     setEditIconState,
+    categoryRefetch,
+    setCategoryRefetch,
 
   } = useCreateObj((state) => ({
     insertList: state.insertList,
@@ -73,7 +75,9 @@ function Manage() {
     showEditIcon: state.showEditIcon,
     setShowEditIcon: state.setShowEditIcon,
     editIconState: state.editIconState,
-    setEditIconState: state.setEditIconState
+    setEditIconState: state.setEditIconState,
+    categoryRefetch: state.categoryRefetch,
+    setCategoryRefetch: state.setCategoryRefetch
   }));
 
 
@@ -85,7 +89,7 @@ function Manage() {
   };
   const handleSubmit = ()=>{
     if(insertList.length > 0){
-      createCategory({userId: session?.user?.id});
+      createCategory(session?.user.id);
       setInsertValue("");
       setSubmitButtonState(true)
     }
@@ -97,7 +101,7 @@ function Manage() {
 
   useEffect(()=>{
     getCategories(session?.user.id)
-  },[])
+  },[categoryRefetch])
   // ----------------------------Search Category Process-------------------
   const [searchVal, setSearchVal] = useState("")
   const [bounceVal] = useDebounce(searchVal,400)
@@ -138,10 +142,17 @@ function Manage() {
   const handlePageClick = (event) => {
     if (catRes.length > 0) {
       setSelected(event.selected);
-      const newOffset = (event.selected * itemsPerPage) % filter.length;
+      const newOffset = (event.selected * categoryPerPage) % filterVal.length;
       setCatOffset(newOffset);
     }
-  };
+  }
+
+  useEffect(() => {
+    if (bounceVal && selected > 0) {
+      setSelected(0);
+      setCatOffset(0);
+    }
+  }, [bounceVal]);
 
   // ----------------------------Search Category End----------------------
   

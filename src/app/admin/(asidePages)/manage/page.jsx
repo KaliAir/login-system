@@ -28,6 +28,16 @@ function Manage() {
       setSmScreen(false);
     }
   }, [sm]);
+
+  const xl = useMediaQuery({ maxWidth: 1280 });
+  const [xlScreen, setXlScreen] = useState(null);
+  useEffect(() => {
+    if (xl) {
+      setXlScreen(true);
+    } else {
+      setXlScreen(false);
+    }
+  }, [xl]);
   //------------------End Responsive------------------------------
 
 
@@ -155,9 +165,13 @@ function Manage() {
   }, [bounceVal]);
 
   // ----------------------------Search Category End----------------------
+  const handleSetEditIconState = (id)=>{
+    setEditIconState(id)
+  }
   
+ 
   return (
-    <div style={Style.mainContainer}>
+    <div style={xlScreen?Style.mainContainerXL:Style.mainContainer}>
       <div style={Style.categoryContainer}>
         {/* -----------------CATEGORY Search and Add--------------- */}
         <div
@@ -318,18 +332,22 @@ function Manage() {
              catRes.length > 0 && currentCategory?.map((res)=>{
               return(
                 <motion.li key={res.id} style={Style.categoryList}
-                onHoverStart={()=> setShowEditIcon(res.id)}
+                onHoverStart={()=> smScreen? "":setShowEditIcon(res.id)}
                 onHoverEnd={handleCategoryHover}
                 >
-                  <p>{res.category}</p>
-                  {showEditIcon && showEditIcon === res.id && editIconState !== res.id?
-                  <FaEdit style={Style.editCategoryIcon} onClick={()=> setEditIconState(res.id)}/>:
-                  editIconState && editIconState === res.id?
-                  <AnimatePresence>
+                  <p style={Style.categoryResponse}>{res.category}</p>
+
+                  {showEditIcon && showEditIcon === res.id || smScreen?
+                  //------------------------------------SHOW EDIT ICON-------------------------------------
+                  editIconState !== res.id?
+                  (<FaEdit style={Style.editCategoryIcon} onClick={()=> handleSetEditIconState(res.id)}/>)
+                  :
+                  //------------------------------------SHOW PEN AND DELETE ICON------------------------------
+                  (<AnimatePresence>
                   <motion.span style={Style.showCategoryEditItem}
-                    initial={{ right: "-2rem" }}
-                    animate={{ right: ".5rem" }}
-                    exit={{ right: "-2rem" }}
+                    initial={smScreen?{ opacity: 0 }:{ right: "-2rem" }}
+                    animate={smScreen?{ opacity:1}:{ right: ".5rem" }}
+                    exit={smScreen?{opacity:0}:{ right: "-2rem" }}
                   >
                     <motion.span style={Style.categoryEditPenIcon}
                     whileHover={{
@@ -346,12 +364,15 @@ function Manage() {
                       <FaTrash/>
                     </motion.span>
                   </motion.span>
-                  </AnimatePresence>:
-                  <motion.span
-                  initial={{ right: "-2rem" }}
-                  animate={{ right: ".5rem" }}
-                  exit={{ right: "-2rem" }}
-                  ></motion.span>
+                  </AnimatePresence>)
+                  :
+                  // -----------------------------NO SHOW-------------------------------------
+                  (<motion.span
+                  initial={smScreen?{ opacity: 0 }:{ right: "-2rem" }}
+                  animate={smScreen?{ opacity:1}:{ right: ".5rem" }}
+                  exit={smScreen?{opacity:0}:{ right: "-2rem" }}
+                  ></motion.span>)
+                  //--------------------SHOW----------------------------------
                   }
                 </motion.li>
               )

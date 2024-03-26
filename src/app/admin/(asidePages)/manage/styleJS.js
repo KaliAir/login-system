@@ -7,6 +7,13 @@ export const Style = {
         position:"relative",
         zIndex:"-4"
     },
+    mainContainerXL:{
+        display:"grid",
+        gridColumnGap:"2rem",
+        borderRadius:".5rem",
+        position:"relative",
+        zIndex:"-4"
+    },
     categoryContainer:{
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
         margin:"0rem .5rem .5rem .5rem",
@@ -70,6 +77,7 @@ export const Style = {
         position:"relative",
         padding:".5rem 1rem",
         zIndex:"-2",
+        overflowX:"hidden",
     },
     searchIcon:{
         padding:"0rem 0rem",
@@ -189,4 +197,7 @@ export const Style = {
     categoryDeleteIcon:{
         cursor:"pointer"
     },
+    categoryResponse:{
+        cursor:"default",
+    }
 }

@@ -38,6 +38,16 @@ function Manage() {
       setXlScreen(false);
     }
   }, [xl]);
+
+  const lg = useMediaQuery({ maxWidth: 1024 });
+  const [lgScreen, setLgScreen] = useState(null);
+  useEffect(() => {
+    if (lg) {
+      setLgScreen(true);
+    } else {
+      setLgScreen(false);
+    }
+  }, [lg]);
   //------------------End Responsive------------------------------
 
 
@@ -90,13 +100,14 @@ function Manage() {
     setCategoryRefetch: state.setCategoryRefetch
   }));
 
-
+  //----------------------------Insert Category on a list located at Zustand-----------------
   const insertToArray = () => {
     if (insertValue.trim() !== "" && insertList.length < 5) {
       setInsertList(insertValue);
       setInsertValue("");
     }
   };
+  //----------------------------Create Category base on user's id--------------
   const handleSubmit = ()=>{
     if(insertList.length > 0){
       createCategory(session?.user.id);
@@ -104,28 +115,31 @@ function Manage() {
       setSubmitButtonState(true)
     }
   }
+  //---------------------------onHoverEnd do this ---------------------
   const handleCategoryHover = ()=>{
     setShowEditIcon(null);
     setEditIconState(null);
   }
-
+  //-----------------------Fetch Categroy base on user's id-----------
   useEffect(()=>{
     getCategories(session?.user.id)
   },[categoryRefetch])
   // ----------------------------Search Category Process-------------------
-  const [searchVal, setSearchVal] = useState("")
-  const [bounceVal] = useDebounce(searchVal,400)
-  const [filterVal,setFilterVal] = useState([])
-  const [currentCategory, setCurrentCategory] = useState([])
-  const [catOffset, setCatOffset] = useState(0)
-  const [pageCount, setPageCount] = useState(1)
-  const [selected, setSelected] = useState(0)
-  const categoryPerPage = 10;
-
+  const [searchVal, setSearchVal] = useState("") //-----search value @ <input/>  (1)
+  const [bounceVal] = useDebounce(searchVal,400)//----add interval of search <input/> (2)
+  const [filterVal,setFilterVal] = useState([]) //-----Filtered Data-------(4)
+  const [currentCategory, setCurrentCategory] = useState([]) //-------This is the Current data now---(8)
+  const [catOffset, setCatOffset] = useState(0) //---Category Offset range--(5)
+  const categoryPerPage = 10; //-----Category per pages--(6)
+  const [pageCount, setPageCount] = useState(1) //-------------pages---(9)
+  const [selected, setSelected] = useState(0) //--------the value of the tab you selected---(11)-----press ctrl F to find 12
+  
+  //------------Event from input search----(0)
   const handleSearchVal = (e)=>{
     e.preventDefault()
     setSearchVal(e.target.value)
   }
+  //-------------------Filter Data from category response-------(3)
   useEffect(()=>{
     if(catRes.length > 0){
       const filterData = catRes.filter((res)=>{
@@ -136,11 +150,13 @@ function Manage() {
       setFilterVal(filterData)
     }
   },[bounceVal,catRes])
+  //-------End of filtering---------
 
   const handleCloseSearchButton = ()=>{
     setSearchButton(!searchButton)
     setSearchVal("")
   }
+  //-------------Processing the offset------(7)
   useEffect(()=>{
     const endOffset = catOffset + categoryPerPage
     if(catRes.length > 0){
@@ -148,7 +164,9 @@ function Manage() {
       setPageCount(Math.ceil(filterVal.length / categoryPerPage))
     }
   },[filterVal, catOffset, categoryPerPage])
+  //-------------End of process------------
 
+  //---------------Get The event from the pagination, that event is the tab you selected----------------(10)
   const handlePageClick = (event) => {
     if (catRes.length > 0) {
       setSelected(event.selected);
@@ -156,7 +174,7 @@ function Manage() {
       setCatOffset(newOffset);
     }
   }
-
+  //-----------------------this is how to fix bug of searching with pagination----------(13)
   useEffect(() => {
     if (bounceVal && selected > 0) {
       setSelected(0);
@@ -171,7 +189,7 @@ function Manage() {
   
  
   return (
-    <div style={xlScreen?Style.mainContainerXL:Style.mainContainer}>
+    <div style={lgScreen?Style.mainContainerXL:Style.mainContainer}> 
       <div style={Style.categoryContainer}>
         {/* -----------------CATEGORY Search and Add--------------- */}
         <div
@@ -379,11 +397,12 @@ function Manage() {
             })
           }
         </ul>
+        
         <ReactPaginate
               breakLabel="..."
               nextLabel=">"
               previousLabel="<"
-              onPageChange={handlePageClick}
+              onPageChange={handlePageClick}  //------------handlePage carries event and the styleCSS.css must be imported here----------------(12)
               pageRangeDisplayed={3}
               pageCount={pageCount}
               renderOnZeroPageCount={null}

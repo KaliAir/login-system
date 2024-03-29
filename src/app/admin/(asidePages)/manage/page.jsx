@@ -433,15 +433,18 @@ function Manage() {
                   :
                   confirmUpdateDelete === "delete"?
                   (<div style={Style.confirmUpdateDeleteContainer}>
+
                     <motion.span
                     whileHover={{
                       scale:1.1,
                       color: "#7D0A0A"
                     }}
                     onClick={()=> handleConfirmDeleteCategory({catId:res.id, userId: session.user.id})}
+                    style={Style.confirmFaCheck}
                     >
-                      <FaCheck style={Style.confirmFaCheck}/>
+                      <FaCheck/>
                     </motion.span>
+
                     <motion.span style={Style.confirmMdClose}
                     whileHover={{
                       scale:1.1,
@@ -451,6 +454,7 @@ function Manage() {
                     >
                       <AiOutlineCloseCircle/>
                     </motion.span>
+
                   </div>)
                   :
                   confirmUpdateDelete === "update"?

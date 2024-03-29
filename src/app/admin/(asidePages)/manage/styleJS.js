@@ -209,7 +209,6 @@ export const Style = {
     },
     confirmMdClose:{
         cursor:"pointer",
-        height:"100%"
     },
     confirmFaCheck:{
         cursor:"pointer",

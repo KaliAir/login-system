@@ -213,7 +213,6 @@ export const Style = {
     },
     confirmFaCheck:{
         cursor:"pointer",
-        height:"100%"
     },
     updateDeleteLoading:{
         display:"grid",

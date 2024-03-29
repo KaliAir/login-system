@@ -199,5 +199,24 @@ export const Style = {
     },
     categoryResponse:{
         cursor:"default",
+    },
+    confirmUpdateDeleteContainer:{
+        display:"grid",
+        gridTemplateColumns:"1fr 1fr",
+        gridColumnGap:"1rem"
+    },
+    confirmMdClose:{
+        cursor:"pointer",
+        border: "1px solid #78A083",
+        borderRadius:"50%",
+    },
+    confirmFaCheck:{
+        cursor:"pointer",
+    },
+    updateDeleteLoading:{
+        display:"grid",
+    },
+    updateDeleteLoadingIcon:{
+        placeSelf:"center"
     }
 }

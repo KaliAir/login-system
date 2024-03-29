@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { createCategory } from "@/fetch/createCategory";
 import { getCategory } from "@/fetch/getCategory";
+import { deleteCategory } from "@/fetch/deleteCategory";
 
 
 const createObj = (set)=>({
@@ -97,6 +98,39 @@ const createObj = (set)=>({
             catRes: categoryData
         }))
     },
+    updateDelete: null,
+    setUpdateDelete:(id)=>{
+        set((state)=>({
+            updateDelete: id
+        }))
+    },
+    confirmUpdateDelete: "",
+    setConfirmUpdateDelete:(confirm)=>{
+        set((state)=>({
+            confirmUpdateDelete: confirm
+        }))
+    },
+    deleteUpdateState:null,
+    setDeleteUpdateState:(id)=>{
+        set(()=>({
+            deleteUpdateState: id
+        }))
+    },
+    deleteCategoryRes:[],
+    confirmDeleteCategory:async(id)=>{
+        const deletedCat = await deleteCategory(id)
+        set((state)=>{
+            if(deletedCat?.success){
+                state.setCategoryRefetch()
+                state.setDeleteUpdateState(null)
+            }
+            return {
+                deleteCategoryRes: deletedCat
+            }
+        })
+    },
+    
+
 
 })
 

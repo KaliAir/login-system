@@ -1,13 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Style } from "./styleJS";
-import { FaPlus, FaSearch, FaTrash, FaEdit, FaPen } from "react-icons/fa";
+import { FaPlus, FaSearch, FaTrash, FaEdit, FaPen, FaCheck } from "react-icons/fa";
+import { FcProcess } from "react-icons/fc";
 import { MdClose } from "react-icons/md";
 import { MdCategory } from "react-icons/md";
 import { CgInsertAfterO } from "react-icons/cg";
 import useThemeColors from "@/zustand/theme/themeColor";
 import useCreateObj from "@/zustand/tempValue/temporaryVal";
 import { motion, AnimatePresence } from "framer-motion";
+import { Motionimate } from "@/framerMotion/motionimate";
 import { useMediaQuery } from "react-responsive";
 import { useSession } from "next-auth/react";
 import { useDebounce } from "use-debounce";
@@ -76,6 +78,14 @@ function Manage() {
     setEditIconState,
     categoryRefetch,
     setCategoryRefetch,
+    updateDelete,
+    setUpdateDelete,
+    confirmUpdateDelete,
+    setConfirmUpdateDelete,
+    confirmDeleteCategory,
+    deleteCategoryRes,
+    deleteUpdateState,
+    setDeleteUpdateState,
 
   } = useCreateObj((state) => ({
     insertList: state.insertList,
@@ -97,7 +107,15 @@ function Manage() {
     editIconState: state.editIconState,
     setEditIconState: state.setEditIconState,
     categoryRefetch: state.categoryRefetch,
-    setCategoryRefetch: state.setCategoryRefetch
+    setCategoryRefetch: state.setCategoryRefetch,
+    updateDelete : state.updateDelete,
+    setUpdateDelete: state.setUpdateDelete,
+    confirmUpdateDelete: state.confirmUpdateDelete,
+    setConfirmUpdateDelete: state.setConfirmUpdateDelete,
+    confirmDeleteCategory: state.confirmDeleteCategory,
+    deleteCategoryRes: state.deleteCategoryRes,
+    deleteUpdateState: state.deleteUpdateState,
+    setDeleteUpdateState: state.setDeleteUpdateState
   }));
 
   //----------------------------Insert Category on a list located at Zustand-----------------
@@ -116,30 +134,38 @@ function Manage() {
     }
   }
   //---------------------------onHoverEnd do this ---------------------
-  const handleCategoryHover = ()=>{
+  const handleCategoryHoverEnd = ()=>{
     setShowEditIcon(null);
     setEditIconState(null);
+    setConfirmUpdateDelete("");
+    setUpdateDelete(null);
   }
   //-----------------------Fetch Categroy base on user's id-----------
   useEffect(()=>{
     getCategories(session?.user.id)
   },[categoryRefetch])
   // ----------------------------Search Category Process-------------------
-  const [searchVal, setSearchVal] = useState("") //-----search value @ <input/>  (1)
-  const [bounceVal] = useDebounce(searchVal,400)//----add interval of search <input/> (2)
-  const [filterVal,setFilterVal] = useState([]) //-----Filtered Data-------(4)
-  const [currentCategory, setCurrentCategory] = useState([]) //-------This is the Current data now---(8)
-  const [catOffset, setCatOffset] = useState(0) //---Category Offset range--(5)
-  const categoryPerPage = 10; //-----Category per pages--(6)
-  const [pageCount, setPageCount] = useState(1) //-------------pages---(9)
-  const [selected, setSelected] = useState(0) //--------the value of the tab you selected---(11)-----press ctrl F to find 12
+  //Note: if you have big data and your ORM is Prisma you can use the SKIP and TAKE method
+  //first you need to get the Event.selected and categoryPerPage in the pagination.
+  //then in await prisma.category.findMany({ skip: event.selected value, take: categoryPerPage Val.})
+  //also get the count of data in you category: await prisma.category.count()
+  //because in count you need it in pagination to set the setPageCount 
   
-  //------------Event from input search----(0)
+  const [searchVal, setSearchVal] = useState("") //search value @ <input/>  (1)
+  const [bounceVal] = useDebounce(searchVal,400)//add interval of search <input/> (2)
+  const [filterVal,setFilterVal] = useState([]) //Filtered Data (4)
+  const [currentCategory, setCurrentCategory] = useState([]) //This is the Current data now (8)
+  const [catOffset, setCatOffset] = useState(0) //Category Offset range (5)
+  const categoryPerPage = 10; //Category per pagesn (6)
+  const [pageCount, setPageCount] = useState(1) //pages (9)
+  const [selected, setSelected] = useState(0) //the value of the tab you selected (11) press ctrl F to find 12
+  
+  //Event from input search (0)
   const handleSearchVal = (e)=>{
     e.preventDefault()
     setSearchVal(e.target.value)
   }
-  //-------------------Filter Data from category response-------(3)
+  //Filter Data from category response (3)
   useEffect(()=>{
     if(catRes.length > 0){
       const filterData = catRes.filter((res)=>{
@@ -156,9 +182,9 @@ function Manage() {
     setSearchButton(!searchButton)
     setSearchVal("")
   }
-  //-------------Processing the offset------(7)
+  //Processing the offset (7)
   useEffect(()=>{
-    const endOffset = catOffset + categoryPerPage
+    const endOffset = catOffset + categoryPerPage //10+ 10
     if(catRes.length > 0){
       setCurrentCategory(filterVal.slice(catOffset, endOffset))
       setPageCount(Math.ceil(filterVal.length / categoryPerPage))
@@ -166,7 +192,7 @@ function Manage() {
   },[filterVal, catOffset, categoryPerPage])
   //-------------End of process------------
 
-  //---------------Get The event from the pagination, that event is the tab you selected----------------(10)
+  //Get The event from the pagination, that event is the tab you selected (10)
   const handlePageClick = (event) => {
     if (catRes.length > 0) {
       setSelected(event.selected);
@@ -174,7 +200,7 @@ function Manage() {
       setCatOffset(newOffset);
     }
   }
-  //-----------------------this is how to fix bug of searching with pagination----------(13)
+  //this is how to fix bug of searching with pagination (13)
   useEffect(() => {
     if (bounceVal && selected > 0) {
       setSelected(0);
@@ -186,9 +212,24 @@ function Manage() {
   const handleSetEditIconState = (id)=>{
     setEditIconState(id)
   }
+
+  const handleDeleteCat = (id)=>{
+    setUpdateDelete(id)
+    setConfirmUpdateDelete("delete")
+  }
   
- 
+  const handleUpdateCat = (id)=>{
+    setUpdateDelete(id)
+    setConfirmUpdateDelete("update")
+  }
+  const handleConfirmDeleteCategory = (deleteCategoryInfo)=>{
+    setDeleteUpdateState(deleteCategoryInfo?.catId)
+    confirmDeleteCategory(deleteCategoryInfo)
+  }
+  
+ //********************************************************************************RETURN********************************************************************************************* */
   return (
+    
     <div style={lgScreen?Style.mainContainerXL:Style.mainContainer}> 
       <div style={Style.categoryContainer}>
         {/* -----------------CATEGORY Search and Add--------------- */}
@@ -351,7 +392,7 @@ function Manage() {
               return(
                 <motion.li key={res.id} style={Style.categoryList}
                 onHoverStart={()=> smScreen? "":setShowEditIcon(res.id)}
-                onHoverEnd={handleCategoryHover}
+                onHoverEnd={handleCategoryHoverEnd}
                 >
                   <p style={Style.categoryResponse}>{res.category}</p>
 
@@ -361,6 +402,7 @@ function Manage() {
                   (<FaEdit style={Style.editCategoryIcon} onClick={()=> handleSetEditIconState(res.id)}/>)
                   :
                   //------------------------------------SHOW PEN AND DELETE ICON------------------------------
+                  updateDelete !== res.id?
                   (<AnimatePresence>
                   <motion.span style={Style.showCategoryEditItem}
                     initial={smScreen?{ opacity: 0 }:{ right: "-2rem" }}
@@ -371,25 +413,64 @@ function Manage() {
                     whileHover={{
                       color:"#78A083"
                     }}
+                    onClick={()=> handleUpdateCat(res.id)}
                     >
                       <FaPen/>
                     </motion.span>
+
                     <motion.span style={Style.categoryDeleteIcon}
                     whileHover={{
                       color:"#7D0A0A"
                     }}
+                    onClick={()=> handleDeleteCat(res.id)}
                     >
                       <FaTrash/>
                     </motion.span>
+
                   </motion.span>
                   </AnimatePresence>)
                   :
+                  confirmUpdateDelete === "delete"?
+                  (<div style={Style.confirmUpdateDeleteContainer}>
+                    <motion.span
+                    whileHover={{
+                      scale:1.1,
+                      color: "#7D0A0A"
+                    }}
+                    onClick={()=> handleConfirmDeleteCategory({catId:res.id, userId: session.user.id})}
+                    >
+                      <FaCheck style={Style.confirmFaCheck}/>
+                    </motion.span>
+                    <motion.span style={Style.confirmMdClose}
+                    whileHover={{
+                      scale:1.1,
+                      color: "#78A083",
+                    }}
+                    onClick={()=> setUpdateDelete(null)}
+                    >
+                      <MdClose/>
+                    </motion.span>
+                  </div>)
+                  :
+                  confirmUpdateDelete === "update"?
+                  (<p>Update</p>)
+                  :
+                  ""
+                  :
                   // -----------------------------NO SHOW-------------------------------------
+                  deleteUpdateState && deleteUpdateState !== res.id?
+                  <motion.span
+                  animate = {Motionimate.infiniteRotate}
+                  style={Style.updateDeleteLoading}
+                  >
+                    <FcProcess style={Style.updateDeleteLoadingIcon}/>
+                  </motion.span>
+                  :
                   (<motion.span
-                  initial={smScreen?{ opacity: 0 }:{ right: "-2rem" }}
-                  animate={smScreen?{ opacity:1}:{ right: ".5rem" }}
-                  exit={smScreen?{opacity:0}:{ right: "-2rem" }}
-                  ></motion.span>)
+                    initial={smScreen?{ opacity: 0 }:{ right: "-2rem" }}
+                    animate={smScreen?{ opacity:1}:{ right: ".5rem" }}
+                    exit={smScreen?{opacity:0}:{ right: "-2rem" }}
+                    ></motion.span>)
                   //--------------------SHOW----------------------------------
                   }
                 </motion.li>
@@ -402,7 +483,7 @@ function Manage() {
               breakLabel="..."
               nextLabel=">"
               previousLabel="<"
-              onPageChange={handlePageClick}  //------------handlePage carries event and the styleCSS.css must be imported here----------------(12)
+              onPageChange={handlePageClick}  //handlePage carries event and the styleCSS.css must be imported here (12)
               pageRangeDisplayed={3}
               pageCount={pageCount}
               renderOnZeroPageCount={null}

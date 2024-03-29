@@ -190,6 +190,7 @@ export const Style = {
         position:"absolute",
         right:".5rem",
         top:".5rem",
+        placeItems:"center",
     },
     categoryEditPenIcon:{
         cursor:"pointer"
@@ -203,15 +204,16 @@ export const Style = {
     confirmUpdateDeleteContainer:{
         display:"grid",
         gridTemplateColumns:"1fr 1fr",
-        gridColumnGap:"1rem"
+        gridColumnGap:"1rem",
+        placeItems:"center",
     },
     confirmMdClose:{
         cursor:"pointer",
-        alignSelf:"center",
+        height:"100%"
     },
     confirmFaCheck:{
         cursor:"pointer",
-        alignSelf:"center",
+        height:"100%"
     },
     updateDeleteLoading:{
         display:"grid",

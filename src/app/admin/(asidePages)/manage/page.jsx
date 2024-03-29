@@ -4,6 +4,7 @@ import { Style } from "./styleJS";
 import { FaPlus, FaSearch, FaTrash, FaEdit, FaPen, FaCheck } from "react-icons/fa";
 import { FcProcess } from "react-icons/fc";
 import { MdClose } from "react-icons/md";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdCategory } from "react-icons/md";
 import { CgInsertAfterO } from "react-icons/cg";
 import useThemeColors from "@/zustand/theme/themeColor";
@@ -448,7 +449,7 @@ function Manage() {
                     }}
                     onClick={()=> setUpdateDelete(null)}
                     >
-                      <MdClose/>
+                      <AiOutlineCloseCircle/>
                     </motion.span>
                   </div>)
                   :
@@ -458,7 +459,7 @@ function Manage() {
                   ""
                   :
                   // -----------------------------NO SHOW-------------------------------------
-                  deleteUpdateState && deleteUpdateState !== res.id?
+                  deleteUpdateState === res.id?
                   <motion.span
                   animate = {Motionimate.infiniteRotate}
                   style={Style.updateDeleteLoading}

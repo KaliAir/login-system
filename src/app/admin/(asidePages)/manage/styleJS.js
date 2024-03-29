@@ -207,11 +207,11 @@ export const Style = {
     },
     confirmMdClose:{
         cursor:"pointer",
-        border: "1px solid #78A083",
-        borderRadius:"50%",
+        alignSelf:"center",
     },
     confirmFaCheck:{
         cursor:"pointer",
+        alignSelf:"center",
     },
     updateDeleteLoading:{
         display:"grid",

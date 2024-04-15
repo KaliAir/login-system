@@ -218,5 +218,9 @@ export const Style = {
     },
     updateDeleteLoadingIcon:{
         placeSelf:"center"
+    },
+    updateInputShow:{
+        outline:"none",
+        width:"100%",
     }
 }

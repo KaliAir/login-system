@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Style } from "./styleJS";
 import { FaPlus, FaSearch, FaTrash, FaEdit, FaPen, FaCheck } from "react-icons/fa";
 import { FcProcess } from "react-icons/fc";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdSystemUpdateAlt } from "react-icons/md";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdCategory } from "react-icons/md";
 import { CgInsertAfterO } from "react-icons/cg";
@@ -15,11 +15,14 @@ import { useMediaQuery } from "react-responsive";
 import { useSession } from "next-auth/react";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
+import { useRouter } from "next/navigation";
 import './styleCSS.css'
 
 function Manage() {
+  const router = useRouter()
   const [insertValue, setInsertValue] = useState("");
-  const {data:session} = useSession();
+  const [onUpdateChange, setOnUpadateChange] = useState("");
+  const {data:session,status} = useSession();
   
   // -----------------Responsive Breaking Points------------
   const sm = useMediaQuery({ maxWidth: 640 });
@@ -87,6 +90,9 @@ function Manage() {
     deleteCategoryRes,
     deleteUpdateState,
     setDeleteUpdateState,
+    showInputUpdate,
+    setShowInputUpdate,
+    setUpdateCategory,
 
   } = useCreateObj((state) => ({
     insertList: state.insertList,
@@ -116,8 +122,19 @@ function Manage() {
     confirmDeleteCategory: state.confirmDeleteCategory,
     deleteCategoryRes: state.deleteCategoryRes,
     deleteUpdateState: state.deleteUpdateState,
-    setDeleteUpdateState: state.setDeleteUpdateState
+    setDeleteUpdateState: state.setDeleteUpdateState,
+    showInputUpdate: state.showInputUpdate,
+    setShowInputUpdate: state.setShowInputUpdate,
+    setUpdateCategory: state.setUpdateCategory,
   }));
+
+  useEffect(()=>{
+    if(session && status === "authenticated"){
+      getCategories(session?.user.id)
+    }else{
+      router.push('/admin')
+    }
+  },[categoryRefetch,session])
 
   //----------------------------Insert Category on a list located at Zustand-----------------
   const insertToArray = () => {
@@ -140,11 +157,9 @@ function Manage() {
     setEditIconState(null);
     setConfirmUpdateDelete("");
     setUpdateDelete(null);
+    setShowInputUpdate(null);
   }
-  //-----------------------Fetch Categroy base on user's id-----------
-  useEffect(()=>{
-    getCategories(session?.user.id)
-  },[categoryRefetch])
+  
   // ----------------------------Search Category Process-------------------
   //Note: if you have big data and your ORM is Prisma you can use the SKIP and TAKE method
   //first you need to get the Event.selected and categoryPerPage in the pagination.
@@ -211,7 +226,9 @@ function Manage() {
 
   // ----------------------------Search Category End----------------------
   const handleSetEditIconState = (id)=>{
-    setEditIconState(id)
+    if(deleteUpdateState !== id){
+      setEditIconState(id)
+    }
   }
 
   const handleDeleteCat = (id)=>{
@@ -220,6 +237,7 @@ function Manage() {
   }
   
   const handleUpdateCat = (id)=>{
+    setShowInputUpdate(id)
     setUpdateDelete(id)
     setConfirmUpdateDelete("update")
   }
@@ -227,6 +245,25 @@ function Manage() {
     setDeleteUpdateState(deleteCategoryInfo?.catId)
     confirmDeleteCategory(deleteCategoryInfo)
   }
+
+  const handleCancelDelete = ()=>{
+    setConfirmUpdateDelete("")
+    setUpdateDelete(null)
+  }
+  const handleNewCategoryName = (dataObj)=>{
+    if(dataObj.newCat.trim() !== ""){
+      setUpdateCategory(dataObj);
+      setDeleteUpdateState(dataObj?.catId);
+      setShowInputUpdate(null);
+    }
+  }
+
+  const handleCancelUpdate = ()=>{
+    setConfirmUpdateDelete("")
+    setUpdateDelete(null)
+    setShowInputUpdate(null)
+  }
+
   
  //********************************************************************************RETURN********************************************************************************************* */
   return (
@@ -395,15 +432,18 @@ function Manage() {
                 onHoverStart={()=> smScreen? "":setShowEditIcon(res.id)}
                 onHoverEnd={handleCategoryHoverEnd}
                 >
-                  <p style={Style.categoryResponse}>{res.category}</p>
+                  {
+                    showInputUpdate !== res.id?
+                    <p style={Style.categoryResponse}>{res.category}</p>
+                    :
+                    <input style={{...Style.updateInputShow,borderBottom:`2px solid ${themeColor.color}`}} type="text" name="updatecat" id="updatecat" defaultValue={res.category} onChange={(e)=> setOnUpadateChange(e.target.value)}/>
+                  }
 
-                  {showEditIcon && showEditIcon === res.id || smScreen?
-                  //------------------------------------SHOW EDIT ICON-------------------------------------
-                  editIconState !== res.id?
+                  {(showEditIcon === res.id || smScreen) && deleteUpdateState !== res.id? //------------------------------------------------------(1st Condition)
+                  editIconState !== res.id? //----------------------------------------------------------------------------------(2nd Condition)
                   (<FaEdit style={Style.editCategoryIcon} onClick={()=> handleSetEditIconState(res.id)}/>)
                   :
-                  //------------------------------------SHOW PEN AND DELETE ICON------------------------------
-                  updateDelete !== res.id?
+                  updateDelete !== res.id? //------------------------------------------------------------------------------------(3nd Condition)
                   (<AnimatePresence>
                   <motion.span style={Style.showCategoryEditItem}
                     initial={smScreen?{ opacity: 0 }:{ right: "-2rem" }}
@@ -431,7 +471,7 @@ function Manage() {
                   </motion.span>
                   </AnimatePresence>)
                   :
-                  confirmUpdateDelete === "delete"?
+                  confirmUpdateDelete === "delete"? //---------------------------------------------------------------------------(4rd Condition)
                   (<div style={Style.confirmUpdateDeleteContainer}>
 
                     <motion.span
@@ -439,7 +479,7 @@ function Manage() {
                       scale:1.1,
                       color: "#7D0A0A"
                     }}
-                    onClick={()=> handleConfirmDeleteCategory({catId:res.id, userId: session.user.id})}
+                    onClick={()=> handleConfirmDeleteCategory({catId:res.id, userId: session?.user.id})}
                     style={Style.confirmFaCheck}
                     >
                       <FaCheck/>
@@ -450,17 +490,37 @@ function Manage() {
                       scale:1.1,
                       color: "#78A083",
                     }}
-                    onClick={()=> setUpdateDelete(null)}
+                    onClick={handleCancelDelete}
                     >
                       <AiOutlineCloseCircle/>
                     </motion.span>
 
                   </div>)
                   :
-                  confirmUpdateDelete === "update"?
-                  (<p>Update</p>)
-                  :
-                  ""
+                  (<div style={Style.confirmUpdateDeleteContainer}>
+
+                    <motion.span
+                    whileHover={{
+                      scale:1.1,
+                      color: "#7D0A0A"
+                    }}
+                    style={Style.confirmFaCheck}
+                    onClick={()=> handleNewCategoryName({catId: res.id,userId: session?.user.id,newCat:onUpdateChange})}
+                    >
+                      <FaCheck/>
+                    </motion.span>
+
+                    <motion.span style={Style.confirmMdClose}
+                    whileHover={{
+                      scale:1.1,
+                      color: "#78A083",
+                    }}
+                    onClick={handleCancelUpdate}
+                    >
+                      <AiOutlineCloseCircle/>
+                    </motion.span>
+
+                  </div>)
                   :
                   // -----------------------------NO SHOW-------------------------------------
                   deleteUpdateState === res.id?

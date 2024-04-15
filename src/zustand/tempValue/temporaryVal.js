@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createCategory } from "@/fetch/createCategory";
 import { getCategory } from "@/fetch/getCategory";
 import { deleteCategory } from "@/fetch/deleteCategory";
+import { updateCategory } from "@/fetch/updateCategory";
 
 
 const createObj = (set)=>({
@@ -113,11 +114,15 @@ const createObj = (set)=>({
     deleteUpdateState:null,
     setDeleteUpdateState:(id)=>{
         set(()=>({
-            deleteUpdateState: id
+            deleteUpdateState: id,
+            confirmUpdateDelete: "",
+            updateDelete:null,
+            editIconState:null,
         }))
     },
     deleteCategoryRes:[],
     confirmDeleteCategory:async(id)=>{
+
         const deletedCat = await deleteCategory(id)
         set((state)=>{
             if(deletedCat?.success){
@@ -129,8 +134,32 @@ const createObj = (set)=>({
             }
         })
     },
-    
-
+    showInputUpdate:null,
+    setShowInputUpdate:(id)=>{
+        set(()=>({
+            showInputUpdate:id
+        }))
+    },
+    setUpdateCategory: async(dataObj)=>{
+        const updateRes = await updateCategory(dataObj)
+        set((state)=>{
+            if(updateRes?.success){
+                state.setCategoryRefetch()
+                state.setDeleteUpdateState(null)
+                state.setConfirmUpdateDelete("")
+                state.setUpdateDelete(null)
+                state.setEditIconState(null)
+                state.setShowInputUpdate(null)
+            }else if(!updateRes?.success){
+                state.setDeleteUpdateState(null)
+                state.setConfirmUpdateDelete("")
+                state.setUpdateDelete(null)
+                state.setEditIconState(null)
+                state.setShowInputUpdate(null)
+            }
+           return updateRes 
+        })
+    }
 
 })
 

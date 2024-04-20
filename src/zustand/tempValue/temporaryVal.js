@@ -140,6 +140,8 @@ const createObj = (set)=>({
             if(deletedCat?.success){
                 state.setCategoryRefetch()
                 state.setDeleteUpdateState(null)
+                state.setItemRefetch()
+                state.setGetCategoryName(null)
             }
             return {
                 deleteCategoryRes: deletedCat

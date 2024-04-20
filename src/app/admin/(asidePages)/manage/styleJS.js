@@ -236,6 +236,8 @@ export const Style = {
         display:"grid",
         justifyContent:"center",
         alignContent:"center",
+        position:"relative",
+        zIndex:"-7"
     },
     // Item Starts here----------------------------
     itemContainer:{

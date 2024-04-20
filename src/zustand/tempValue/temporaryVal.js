@@ -252,6 +252,12 @@ const createObj = (set)=>({
             }
         }
     },
+    itemRefetch:0,
+    setItemRefetch:()=>{
+        set((state)=>({
+            itemRefetch: state.itemRefetch + 1,
+        }));
+    },
 
 })
 

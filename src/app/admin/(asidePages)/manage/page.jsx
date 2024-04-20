@@ -32,7 +32,7 @@ import "./styleCSS.css";
 function Manage() {
   const router = useRouter();
   const [insertValue, setInsertValue] = useState("");
-  const [catIdChanging, setCatIdChanging] = useState("");
+  const [itemError, setItemError ] = useState({});
   const [imageUpload, setImageUpload] = useState("");
   const [onUpdateChange, setOnUpadateChange] = useState("");
   const { data: session, status } = useSession();
@@ -131,6 +131,9 @@ function Manage() {
     createItemsRes,
     showCreatedItems,
     setShowCreatedItems,
+    itemRefetch,
+    setItemRefetch,
+
   } = useCreateObj((state) => ({
     insertList: state.insertList,
     setInsertList: state.setInserList,
@@ -179,6 +182,9 @@ function Manage() {
     createItemsRes: state.createItemsRes,
     showCreatedItems: state.showCreatedItems,
     setShowCreatedItems: state.setShowCreatedItems,
+    itemRefetch: state.itemRefetch,
+    setItemRefetch: state.setItemRefetch,
+
   }));
 
   useEffect(() => {
@@ -198,7 +204,7 @@ function Manage() {
       callItemRes();
       
     }
-  }, [getCategoryName]);
+  }, [getCategoryName,itemRefetch]);
 
   //----------------------------Insert Category on a list located at Zustand-----------------
   const insertToArray = () => {
@@ -222,9 +228,13 @@ function Manage() {
     const dataObj = Object.fromEntries(formData);
     setSubmitItemButtonState(true);
     const itemCallRes = await setCreateItems(dataObj);
+    if(itemCallRes.error){
+      setItemError(itemCallRes.error)
+    }
     const formReset = document.querySelector("#itemForm");
     if (itemCallRes.success) {
       formReset.reset();
+      setItemRefetch()
       setSubmitItemButtonState(false);
     } else {
       setSubmitItemButtonState(false);
@@ -874,9 +884,12 @@ function Manage() {
                   Item name *
                 </label>
                 <input
-                  style={{
+                  style={itemError?.itemNameInput !== ""?{
                     ...Style.itemInput,
                     border: `2px solid ${themeColor.color}`,
+                  }:{
+                    ...Style.itemInput,
+                    border:"2px solid #E72929",
                   }}
                   type="text"
                   id="itemName"
@@ -974,9 +987,12 @@ function Manage() {
                   Sale price *
                 </label>
                 <input
-                  style={{
+                  style={itemError?.salePriceInput !== ""?{
                     ...Style.itemInput,
                     border: `2px solid ${themeColor.color}`,
+                  }:{
+                    ...Style.itemInput,
+                    border:"2px solid #E72929",
                   }}
                   type="text"
                   id="salePrice"
@@ -990,9 +1006,12 @@ function Manage() {
                   Net price *
                 </label>
                 <input
-                  style={{
+                  style={itemError?.netPriceInput !== ""?{
                     ...Style.itemInput,
                     border: `2px solid ${themeColor.color}`,
+                  }:{
+                    ...Style.itemInput,
+                    border:"2px solid #E72929",
                   }}
                   type="text"
                   id="netPrice"

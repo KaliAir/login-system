@@ -28,7 +28,11 @@ export async function POST(req){
 
         if(!itemName || !salePrice || !netPrice){
             return NextResponse.json({
-                error: "Input fields with (*) cannot be empty"
+                error: {
+                    itemNameInput:itemName,
+                    salePriceInput:salePrice,
+                    netPriceInput:netPrice
+                }
             },{status:400})
         }
         const checkItemExists = await prisma.item.findFirst({
@@ -39,7 +43,7 @@ export async function POST(req){
         });
         if(checkItemExists){
             return NextResponse.json({
-                error:"Item already exists"
+                error:{itemNameInput:""},
             },{status:400})
         }
         const saveItem = await prisma.item.create({

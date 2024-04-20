@@ -261,7 +261,7 @@ function Manage() {
   const [filterVal, setFilterVal] = useState([]); //Filtered Data (4)
   const [currentCategory, setCurrentCategory] = useState([]); //This is the Current data now (8)
   const [catOffset, setCatOffset] = useState(0); //Category Offset range (5)
-  const categoryPerPage = 15; //Category per pagesn (6)
+  const categoryPerPage = 10; //Category per pagesn (6)
   const [pageCount, setPageCount] = useState(1); //pages (9)
   const [selected, setSelected] = useState(0); //the value of the tab you selected (11) press ctrl F to find 12
 
@@ -322,7 +322,7 @@ function Manage() {
   const [filterItemVal, setFilterItemVal] = useState([]); //Filtered Data (4)
   const [currentItem, setCurrentItem] = useState([]); //This is the Current data now (8)
   const [itemOffset, setItemOffset] = useState(0); //Category Offset range (5)
-  const itemPerPage = 15; //Category per pagesn (6)
+  const itemPerPage = 10; //Category per pagesn (6)
   const [itemPageCount, setItemPageCount] = useState(1); //pages (9)
   const [selectedItem, setSelectedItem] = useState(0); //the value of the tab you selected (11) press ctrl F to find 12
 
@@ -511,7 +511,7 @@ function Manage() {
               style={
                 !submitButtonState
                   ? { ...Style.submit, backgroundColor: `${themeColor.color}` }
-                  : { ...Style.submit, border: `2px solid ${themeColor.color}` }
+                  : { ...Style.submit, backgroundColor: `${themeColor.color}`,color:"#FFF7FC" }
               }
               whileHover={{
                 scale: 1.01,
@@ -1052,9 +1052,10 @@ function Manage() {
                         backgroundColor: `${themeColor.color}`,
                       }
                     : {
-                        ...Style.addItemSubmitButton,
-                        border: `2px solid ${themeColor.color}`,
-                      }
+                      ...Style.addItemSubmitButton,
+                      backgroundColor: `${themeColor.color}`,
+                      color:"#FFF7FC"
+                    }
                 }
                 whileHover={{
                   scale: 1.01,

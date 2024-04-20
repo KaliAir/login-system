@@ -16,7 +16,6 @@ export const Style = {
     },
     categoryContainer:{
         display:"grid",
-        height:"36.8rem",
         gridTemplateRows:"auto 1fr auto",
         boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
         margin:"0rem .5rem .5rem .5rem",

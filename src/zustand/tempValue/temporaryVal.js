@@ -3,6 +3,8 @@ import { createCategory } from "@/fetch/createCategory";
 import { getCategory } from "@/fetch/getCategory";
 import { deleteCategory } from "@/fetch/deleteCategory";
 import { updateCategory } from "@/fetch/updateCategory";
+import { createItem } from "@/fetch/createItem";
+import { showItems } from "@/fetch/showItems";
 
 
 const createObj = (set)=>({
@@ -16,20 +18,30 @@ const createObj = (set)=>({
     setSearchButton:(finalState)=>{
         set((state)=>({
             searchButton: finalState,
-            addButton:false
+            addButton:false,
+            itemSearchButton:false,
+            itemAddButton:false,
         }))
     },
     addButton:false,
     setAddButton:(finalState)=>{
         set((state)=>({
             addButton: finalState,
-            searchButton:false
+            searchButton:false,
+            itemAddButton:false,
+            itemSearchButton:false,
         }))
     },
     insertList:[],
     setInserList:(insertVal)=>{
         set((state)=>({
             insertList:[...state.insertList,insertVal]
+        }))
+    },
+    insertItemList:[],
+    setInsertItemList:(insertVal)=>{
+        set((state)=>({
+            insertItemList:[...state.insertItemList,insertVal]
         }))
     },
     insertId:null,
@@ -93,8 +105,8 @@ const createObj = (set)=>({
         })
     },
     catRes:[],
-    getCategories: async(catId)=>{
-        const categoryData = await getCategory(catId);
+    getCategories: async(userId)=>{
+        const categoryData = await getCategory(userId);
         set((state)=>({
             catRes: categoryData
         }))
@@ -159,7 +171,87 @@ const createObj = (set)=>({
             }
            return updateRes 
         })
-    }
+    },
+    getCategoryName: null,
+    setGetCategoryName:(categoryData)=>{
+        set((state)=>({
+            getCategoryName: categoryData
+        }))
+    },
+    categoryHover:null,
+    setCategoryHover:(id)=>{
+        set(()=>({
+            categoryHover: id
+        }))
+    },
+    itemSearchButton:false,
+    setItemSearchButton:(finalState)=>{
+        set((state)=>({
+            itemSearchButton: finalState,
+            addButton:false,
+            searchButton: false,
+            itemAddButton:false,
+        }))
+    },
+    itemSearchVal: "",
+    setItemSearchVal:(val)=>{
+        set(()=>({
+            itemSearchVal:val
+        }))
+    },
+    itemAddButton:false,
+    setItemAddButton:(finalState)=>{
+        set((state)=>({
+            itemAddButton: finalState,
+            searchButton:false,
+            itemSearchButton:false,
+            addButton:false,
+        }))
+    },
+    removeInsertedItemList:(id)=>{
+        set((state)=>{
+            const recentList = [...state.insertItemList]
+            recentList.splice(id,1)
+            return {
+                insertItemList: recentList
+            }
+        })
+    },
+    insertItemId:null,
+    setInsertItemId:(id)=>{
+        set((state)=>({
+            insertItemId:id
+        }))
+    },
+    submitItemButtonState:false,
+    setSubmitItemButtonState:(finalState)=>{
+        set((state)=>({
+            submitItemButtonState: finalState
+        }))
+    },
+    createItemsRes:null,
+    setCreateItems: async (dataObj)=>{
+        const createItemResponse = await createItem(dataObj)
+        set((state)=>{
+            if(createItemResponse.success){
+                state.setItemAddButton(false)
+            }
+            return {createItemsRes:createItemResponse}
+        })
+        return createItemResponse
+    },
+    showCreatedItems:[],
+    setShowCreatedItems:async(catName)=>{
+        if(catName){
+            try {
+                const showItemsResponse = await showItems(catName?.categoryId);
+                set({ showCreatedItems: showItemsResponse });
+                return showItemsResponse 
+            } catch (error) {
+                console.error("Error Fetching Items",error)
+            }
+        }
+    },
 
 })
 

@@ -6,7 +6,7 @@ export const Style = {
         position:"relative",
         backgroudColor:"white",
         zIndex:"-12",
-        padding:"1.5rem 1rem 0rem 2.3rem"
+        padding:"1.5rem 1rem 1rem 2.3rem"
     },
     // Section the content of the app <section></section>
     section:{

@@ -65,10 +65,10 @@ model Item {
   brand String?
   supplier String?
   stock Float?
-  unit String
+  unit String?
   salePrice Float
   netPrice Float
-  vat Float
+  vat Float?
   categoryId String @db.ObjectId
   category Category @relation(fields: [categoryId],references: [id], onDelete: Cascade)
 }

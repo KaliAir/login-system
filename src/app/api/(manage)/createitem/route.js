@@ -18,7 +18,8 @@ export async function POST(req){
             salePrice,
             netPrice,
             vat,
-            categoryId
+            categoryId,
+            itemUserId
         } = reqBody;
 
         const sPrice = parseInt(salePrice);
@@ -59,7 +60,8 @@ export async function POST(req){
                 salePrice: sPrice,
                 netPrice: nPrice,
                 vat: v,
-                categoryId
+                categoryId,
+                userId: itemUserId
             }
         });
         return NextResponse.json({

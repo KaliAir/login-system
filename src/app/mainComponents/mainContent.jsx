@@ -4,14 +4,20 @@ import { Style } from "./styleJS";
 import AsideContainer from "../components/aside/asideContainer";
 import useCreateObj from "@/zustand/tempValue/temporaryVal";
 import { useMediaQuery } from "react-responsive";
+import LibraryModal from "../components/modal/libraryModal";
 
 
 function MainContent({ children }) {
   const phone = useMediaQuery({maxWidth:767})
   const [phoneState,setPhoneState] = useState(null);
 
-  const {asideButtonColapseState} = useCreateObj((state)=>({
-    asideButtonColapseState: state.asideButtonColapseState
+  const {
+    asideButtonColapseState,
+    itemLibraryState,
+
+  } = useCreateObj((state)=>({
+    asideButtonColapseState: state.asideButtonColapseState,
+    itemLibraryState: state.itemLibraryState,
   }))
 
   useEffect(()=>{
@@ -24,6 +30,14 @@ function MainContent({ children }) {
 
   return (
     <div style={!asideButtonColapseState && !phoneState?Style.contentWrapper:Style.contentWrapperColapse}>
+      {
+        itemLibraryState?(
+          <div style={Style.libraryContainer}>
+            <LibraryModal/>
+          </div>
+        ):
+        ""
+      }
       <AsideContainer/>
       <span style={Style.span}></span>
       <main style={Style.main}>

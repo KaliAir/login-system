@@ -37,4 +37,13 @@ export const Style = {
         position:"relative",
         zIndex:"-11",
     },
+    libraryContainer:{
+        display:"grid",
+        position:"absolute",
+        width:"100%",
+        height:"100%",
+        backgroundColor:"rgb(0,0,0,.8)",
+        placeContent:"center",
+        zIndex:"-1",
+    }
 }

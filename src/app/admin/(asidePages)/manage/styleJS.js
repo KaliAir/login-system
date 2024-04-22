@@ -366,7 +366,9 @@ export const Style = {
     itemAddPhoto:{
         display:"grid",
         placeItems:"center",
-        gridTemplateColumns:"1fr 1fr 5rem",
+        gridTemplateColumns:"1.5fr 1fr 1fr auto",
+        gridColumnGap:".5rem",
+        margin:"0rem .5rem",
     },
     itemUploadBanner:{
         display:"flex",
@@ -376,6 +378,16 @@ export const Style = {
         fontSize:"1.3rem",
     },
     imageUploadedIcon:{
-        borderRadius:".3rem"
-    }
+        borderRadius:".3rem",
+    },
+    itemPhotoLibrary:{
+        padding:".25rem",
+        borderRadius:".2rem",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+
+    },
+    cluploadButton:{
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+    },
+    
 }

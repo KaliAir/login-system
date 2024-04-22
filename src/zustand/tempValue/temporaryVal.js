@@ -5,6 +5,7 @@ import { deleteCategory } from "@/fetch/deleteCategory";
 import { updateCategory } from "@/fetch/updateCategory";
 import { createItem } from "@/fetch/createItem";
 import { showItems } from "@/fetch/showItems";
+import { showItemsPhoto } from "@/fetch/showItemsPhoto";
 
 
 const createObj = (set)=>({
@@ -142,6 +143,7 @@ const createObj = (set)=>({
                 state.setDeleteUpdateState(null)
                 state.setItemRefetch()
                 state.setGetCategoryName(null)
+                state.clearCreatedItems()
             }
             return {
                 deleteCategoryRes: deletedCat
@@ -243,6 +245,9 @@ const createObj = (set)=>({
         return createItemResponse
     },
     showCreatedItems:[],
+    clearCreatedItems:()=>{
+        set({showCreatedItems:[]})
+    },
     setShowCreatedItems:async(catName)=>{
         if(catName){
             try {
@@ -260,6 +265,14 @@ const createObj = (set)=>({
             itemRefetch: state.itemRefetch + 1,
         }));
     },
+    itemLibraryState:false,
+    setItemLibraryState:(newState)=>{
+        set({itemLibraryState:newState})
+    },
+    showLibraryPhotos:async(id)=>{
+        const photoRes = await showItemsPhoto(id)
+        return photoRes
+    }
 
 })
 

@@ -133,6 +133,8 @@ function Manage() {
     setShowCreatedItems,
     itemRefetch,
     setItemRefetch,
+    itemLibraryState,
+    setItemLibraryState,
 
   } = useCreateObj((state) => ({
     insertList: state.insertList,
@@ -184,6 +186,8 @@ function Manage() {
     setShowCreatedItems: state.setShowCreatedItems,
     itemRefetch: state.itemRefetch,
     setItemRefetch: state.setItemRefetch,
+    itemLibraryState: state.itemLibraryState,
+    setItemLibraryState: state.setItemLibraryState,
 
   }));
 
@@ -233,6 +237,7 @@ function Manage() {
     }
     const formReset = document.querySelector("#itemForm");
     if (itemCallRes.success) {
+      setImageUpload("")
       formReset.reset();
       setItemRefetch()
       setSubmitItemButtonState(false);
@@ -431,6 +436,11 @@ function Manage() {
     setItemSearchButton(!itemSearchButton);
     setItemSearchVal("");
   };
+
+  const handleOpenLibrary = ()=>{
+    setItemLibraryState(true)
+    // setItemRefetch()
+  }
 
   //*******************************************************************RETURN********************************************************************** */
   return (
@@ -816,8 +826,11 @@ function Manage() {
             <div style={Style.itemAddPhoto}>
               <div style={Style.itemUploadBanner}>
                 <FaImage style={Style.itemPhotoImage} />
-                <p>Photo :</p>
+                {xlScreen?"":(<p>Photo :</p>)}
               </div>
+              <button style={{...Style.itemPhotoLibrary,background:`${themeColor.color}`}}
+              onClick={handleOpenLibrary}
+              >Library</button>
               <CldUploadWidget
                 uploadPreset="h9awltal"
                 onSuccess={(result, { widget }) => {
@@ -828,10 +841,11 @@ function Manage() {
                 {({ open }) => {
                   return (
                     <button
-                      className="p-2 bg-slate-400 rounded-sm"
+                      className="p-1 bg-slate-400 rounded-sm"
+                      style={Style.cluploadButton}
                       onClick={() => open()}
                     >
-                      Add here
+                      Upload
                     </button>
                   );
                 }}
@@ -854,13 +868,14 @@ function Manage() {
             <form
               style={Style.itemForm}
               id="itemForm"
+              name="itemForm"
               onSubmit={handleItemSubmit}
             >
               <input
                 type="hidden"
                 name="photo"
                 id="photo"
-                value={imageUpload}
+                def={imageUpload}
               />
 
               <div style={Style.itemInputContainer}>
@@ -1041,6 +1056,12 @@ function Manage() {
                 id="categoryId"
                 name="categoryId"
                 defaultValue={getCategoryName?.categoryId}
+              />
+              <input
+                type="hidden"
+                id="itemUserId"
+                name="itemUserId"
+                defaultValue={session?.user.id}
               />
 
               <motion.button

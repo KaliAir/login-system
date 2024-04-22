@@ -269,8 +269,10 @@ const createObj = (set)=>({
     setItemLibraryState:(newState)=>{
         set({itemLibraryState:newState})
     },
+    photoList:[],
     showLibraryPhotos:async(id)=>{
         const photoRes = await showItemsPhoto(id)
+        set({photoList:photoRes.checkId})
         return photoRes
     }
 

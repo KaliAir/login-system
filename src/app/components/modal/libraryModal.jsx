@@ -5,22 +5,21 @@ import useCreateObj from "@/zustand/tempValue/temporaryVal";
 import { CldImage } from "next-cloudinary";
 import useThemeColors from "@/zustand/theme/themeColor";
 import { CgClose } from "react-icons/cg";
-import Skeleton,{ SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import Spinner from "../loading/spinner";
 
 function LibraryModal() {
-  const [photoList, setPhotoList] = React.useState([]);
+
   const [loading, setLoading] = React.useState(false);
   const { themeColor } = useThemeColors((state) => ({
     themeColor: state.themeColor,
   }));
-  const { setItemLibraryState, catRes, getCategoryName, showLibraryPhotos } =
+  const { setItemLibraryState, catRes, getCategoryName, showLibraryPhotos,photoList } =
     useCreateObj((state) => ({
       setItemLibraryState: state.setItemLibraryState,
       catRes: state.catRes,
       getCategoryName: state.getCategoryName,
       showLibraryPhotos: state.showLibraryPhotos,
+      photoList: state.photoList
     }));
 
   const [selectValue, setSelectValue] = React.useState(
@@ -32,9 +31,11 @@ function LibraryModal() {
       setLoading(true);
       const photoResponse = await showLibraryPhotos(selectValue);
       if (photoResponse.success) {
-        setPhotoList(photoResponse.checkId);
+        setLoading(false)
+      }else{
+        setLoading(false);
       }
-      setLoading(false);
+      
     };
     handleSelectRefetch();
   }, [selectValue]);

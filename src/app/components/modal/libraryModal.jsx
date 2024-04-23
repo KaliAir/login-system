@@ -84,7 +84,7 @@ function LibraryModal() {
             .map((items) => {
               return (
                 <li key={items.id} style={Style.libraryLi}>
-                  {items.photo ? (
+                  
                     <CldImage
                       width="150"
                       height="150"
@@ -93,9 +93,7 @@ function LibraryModal() {
                       alt="Item Image"
                       style={Style.libraryImage}
                     />
-                  ) : (
-                    <span style={Style.noImage}>No image</span>
-                  )}
+                  
                 </li>
               );
             })}

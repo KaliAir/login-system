@@ -65,7 +65,7 @@ function Verify() {
     }
   }
   return (
-    <form id='myForm' onSubmit={handleVerify} style={Style.verifyContainer}>
+    <form id='myForm' name='myForm' onSubmit={handleVerify} style={Style.verifyContainer}>
         <p style={Style.errorMessage}>{errorMessage}</p>
         {!relog?(<VscUnverified style={Style.verifyIcon}/>):<Link href='/login'><motion.p whileHover={{scale:1.03}} style={Style.relog}>{`->RELOG<-`}</motion.p></Link>}
         <p style={Style.emailCheck}>Please check your email.</p>

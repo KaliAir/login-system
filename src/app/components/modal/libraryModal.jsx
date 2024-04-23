@@ -22,7 +22,7 @@ function LibraryModal() {
     }));
 
   const [selectValue, setSelectValue] = React.useState(
-    ""
+    getCategoryName.categoryId
   );
 
   useEffect(() => {
@@ -31,16 +31,18 @@ function LibraryModal() {
       const photoResponse = await showLibraryPhotos(selectValue);
       if (photoResponse.success) {
         setPhotoList(photoResponse.checkId);
-        setLoading(false)
-      }else{
-        setLoading(false)
+        setLoading(false);
+      } else {
+        setLoading(false);
       }
     };
     handleSelectRefetch();
   }, [selectValue]);
 
   return (
+    //--Div Container
     <div style={Style.libraryModal}>
+      {/* Div Child 1 */}
       <div style={Style.libraryTitleContainer}>
         <p style={Style.libWord}>Select image</p>
         <CgClose
@@ -48,6 +50,7 @@ function LibraryModal() {
           onClick={() => setItemLibraryState(false)}
         />
       </div>
+      {/* Select Child 2 */}
       <select
         value={selectValue}
         onChange={(e) => setSelectValue(e.target.value)}
@@ -55,49 +58,42 @@ function LibraryModal() {
           ...Style.librarySelect,
           border: `2px solid ${themeColor.color}`,
         }}
+        id="selectCatPhoto"
+        name="selectCatPhoto"
       >
-        <option value={getCategoryName.categoryId}>
-          {getCategoryName ? getCategoryName.categoryName : ""}
-        </option>
-        {catRes
-          ?.filter((cat) => cat.id !== getCategoryName.categoryId)
-          .map((res) => {
-            return (
-              <option value={res.id} key={res.id}>
-                {res.category}
-              </option>
-            );
-          })}
+        {catRes?.map((res) => {
+          return (
+            <option value={res.id} key={res.id}>
+              {res.category}
+            </option>
+          );
+        })}
       </select>
+      {/* ShowHide Child 3 */}
       {loading ? (
         <div style={Style.skeletonWrapper}>
-          <Spinner/>
+          <Spinner />
         </div>
-       
       ) : (
         <ul style={Style.imageListContainer}>
-          {photoList
-            ?.filter((filterItem) =>
-              selectValue ? filterItem.categoryId === selectValue : false
-            )
-            .map((items) => {
-              return (
-                <li key={items.id} style={Style.libraryLi}>
-                  {items.photo ? (
-                    <CldImage
-                      width="150"
-                      height="150"
-                      src={items.photo}
-                      sizes="100vw"
-                      alt="Item Image"
-                      style={Style.libraryImage}
-                    />
-                  ) : (
-                    <span style={Style.noImage}>No image</span>
-                  )}
-                </li>
-              );
-            })}
+          {photoList?.map((items) => {
+            return (
+              <li key={items.id} style={Style.libraryLi}>
+                {items.photo ? (
+                  <CldImage
+                    width="150"
+                    height="150"
+                    src={items.photo}
+                    sizes="100vw"
+                    alt="Item Image"
+                    style={Style.libraryImage}
+                  />
+                ) : (
+                  <span style={Style.noImage}>No image</span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

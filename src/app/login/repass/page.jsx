@@ -62,7 +62,7 @@ function Repassword() {
 
 
   return (
-    <form id='resetForm' onSubmit={handleResetPassword} style={Style.formContainer}>
+    <form id='resetForm' name='resetForm' onSubmit={handleResetPassword} style={Style.formContainer}>
       <h1 style={Style.changePassword}>Change Password</h1>
       <p style={Style.error}>{tokenError}</p>
       <label htmlFor="password">

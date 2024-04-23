@@ -30,7 +30,7 @@ function PasswordReset() {
   }
 
   return (
-    <form id='myForm' onSubmit={handleResetPassword} style={Style.verifyContainer}>
+    <form id='myForm' name='myForm' onSubmit={handleResetPassword} style={Style.verifyContainer}>
         <p style={Style.errorMessage}>{resetError}</p>
         <VscUnverified style={Style.verifyIcon}/>
         <p style={Style.emailCheck}>Input reset password token. </p>

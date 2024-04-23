@@ -28,9 +28,14 @@ function LibraryModal() {
 
   useEffect(() => {
     const handleSelectRefetch = async () => {
-      
+      setLoading(true);
       const photoResponse = await showLibraryPhotos(selectValue);
-     
+      if (photoResponse.success) {
+        setLoading(false)
+      }else{
+        setLoading(false);
+      }
+      
     };
     handleSelectRefetch();
   }, [selectValue]);
@@ -65,12 +70,21 @@ function LibraryModal() {
             );
           })}
       </select>
-     
+      {loading ? (
+        <div style={Style.skeletonWrapper}>
+          <Spinner/>
+        </div>
+       
+      ) : (
         <ul style={Style.imageListContainer}>
-          {photoList?.map((items) => {
+          {photoList
+            ?.filter((filterItem) =>
+              selectValue ? filterItem.categoryId === selectValue : false
+            )
+            .map((items) => {
               return (
                 <li key={items.id} style={Style.libraryLi}>
-                  
+                  {items.photo ? (
                     <CldImage
                       width="150"
                       height="150"
@@ -79,12 +93,14 @@ function LibraryModal() {
                       alt="Item Image"
                       style={Style.libraryImage}
                     />
-                  
+                  ) : (
+                    <span style={Style.noImage}>No image</span>
+                  )}
                 </li>
               );
             })}
         </ul>
-      
+      )}
     </div>
   );
 }

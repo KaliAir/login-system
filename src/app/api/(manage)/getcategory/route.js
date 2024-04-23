@@ -3,10 +3,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request){
     try {
-        const url = new URL(request.url);
-        const userId = url.searchParams.get("userId")
+        const {searchParams} = new URL(request.url);
+        const userId = searchParams.get("userId")
         const checkUserCategory = await prisma.category.findMany({
             where:{
                 userId,

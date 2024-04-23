@@ -8,22 +8,21 @@ import { CgClose } from "react-icons/cg";
 import Spinner from "../loading/spinner";
 
 function LibraryModal() {
-
+  const [photoList, setPhotoList] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const { themeColor } = useThemeColors((state) => ({
     themeColor: state.themeColor,
   }));
-  const { setItemLibraryState, catRes, getCategoryName, showLibraryPhotos,photoList } =
+  const { setItemLibraryState, catRes, getCategoryName, showLibraryPhotos } =
     useCreateObj((state) => ({
       setItemLibraryState: state.setItemLibraryState,
       catRes: state.catRes,
       getCategoryName: state.getCategoryName,
       showLibraryPhotos: state.showLibraryPhotos,
-      photoList: state.photoList
     }));
 
   const [selectValue, setSelectValue] = React.useState(
-    getCategoryName.categoryId
+    ""
   );
 
   useEffect(() => {
@@ -31,11 +30,11 @@ function LibraryModal() {
       setLoading(true);
       const photoResponse = await showLibraryPhotos(selectValue);
       if (photoResponse.success) {
+        setPhotoList(photoResponse.checkId);
         setLoading(false)
       }else{
-        setLoading(false);
+        setLoading(false)
       }
-      
     };
     handleSelectRefetch();
   }, [selectValue]);

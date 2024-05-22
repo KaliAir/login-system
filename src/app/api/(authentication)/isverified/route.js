@@ -10,11 +10,16 @@ export async function POST(request){
         const reqbody = await request.json();
         const {email,password} = reqbody;
 
-        const validEmailFormat = isEmailValid(email);
-        if(!validEmailFormat || !email || !password){
+        if(!email || !password){
             return NextResponse.json({
                 error:"Input fields cannot be empty"
             })
+        }
+        const validEmail = isEmailValid(email)
+        if(!validEmail){
+            return NextResponse.json({
+                error: "Invalid Email"
+            },{status:400})
         }
 
         const checkUserVerified = await prisma.user.findFirst({

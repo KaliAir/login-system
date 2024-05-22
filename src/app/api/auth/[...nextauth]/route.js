@@ -78,8 +78,8 @@ export const authOptions = {
     maxAge: 1 * 24 * 60 * 60,
   },
   callbacks: {
-    async signIn({user, account}){
-      if(account?.provider !== "credentials") return true;
+    async signIn({user, account, profile}){
+      if(account?.provider !== "credentials" && profile.email_verified) return true;
       if(!user.verified){
         return false;
       }

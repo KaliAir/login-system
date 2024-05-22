@@ -14,7 +14,6 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { generateToken } from "@/fetch/generatetoken";
-import { verifyemail } from "@/fetch/verifyemail";
 import { send } from "@/fetch/send";
 import { isverified } from "@/fetch/isverified";
 import { LuEye,LuEyeOff } from "react-icons/lu";
@@ -40,21 +39,22 @@ function LoginPage() {
     const dataObj = Object.fromEntries(formData);
     const {verified,password,error} = await isverified({email:dataObj.email,password:dataObj.password})
     if(!verified && password){
-      const {success} = await generateToken({email:dataObj.email})
+      const {success, verificationToken:{email, token}} = await generateToken({email:dataObj.email})
       if(success){
-        const {email, token} = await verifyemail({email:dataObj.email})
-        const sendEmail = await send({email,token})
+        const {data} = await send({email,token})
         setIsLoading(false)
-        router.push(`/login/signup/${dataObj}`)
+        if(data?.id !== undefined){
+          router.push(`/login/signup/${email}`)
+        }
       }
     }
-    const {ok} = await signIn("credentials",{
+    const credentials = await signIn("credentials",{
       ...dataObj,
       redirect: false
     });
-    if(!ok){
+    if(!credentials.ok){
       setIsLoading(false)
-      setLoginError(error)
+      setLoginError(credentials.error.trim() !== "CredentialsSignin"? "Invalid credentials use google":error)
     }else{
       router.push('/admin')
     }

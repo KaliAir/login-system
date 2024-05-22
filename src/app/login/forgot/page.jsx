@@ -7,9 +7,8 @@ import Link from 'next/link';
 import { generateToken } from '@/fetch/generatetoken';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { send } from '@/fetch/send';
+import { changePass } from '@/fetch/changePass';
 import { forgotEmailCheck } from '@/fetch/forgotemailcheck';
-import { verifyemail } from '@/fetch/verifyemail';
 
 function ForgotPass() {
   const router = useRouter();
@@ -23,16 +22,21 @@ function ForgotPass() {
     const dataObj = Object.fromEntries(formData);
     const {verified,error} = await forgotEmailCheck(dataObj); //check the email if it exists then return the state of the verified in db(true OR false)
     if(verified){
-      const {success} = await generateToken(dataObj);
+      const {success, verificationToken:{email, token}} = await generateToken(dataObj);
       if(success){
-        const {email,token} = await verifyemail(dataObj)
-        const sendEmail = await send({email,token});
+        const {data} = await changePass({email,token});
         setForgotLoading(false)
-        router.push(`/login/forgot/${dataObj.email}`);
+        if(data?.id !== undefined){
+          router.push(`/login/forgot/${dataObj.email}`);
+        }
       }
     }else{
-      setVerifiedError(error)
+      if(error){
+        setVerifiedError(error)
+      }
+      setVerifiedError("Not verified, login to verify")
       setForgotLoading(false);
+      
     }
   }
   return (

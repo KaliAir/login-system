@@ -197,12 +197,6 @@ const createObj = (set)=>({
             itemAddButton:false,
         }))
     },
-    itemSearchVal: "",
-    setItemSearchVal:(val)=>{
-        set(()=>({
-            itemSearchVal:val
-        }))
-    },
     itemAddButton:false,
     setItemAddButton:(finalState)=>{
         set((state)=>({
@@ -272,6 +266,10 @@ const createObj = (set)=>({
     showLibraryPhotos:async(id)=>{
         const photoRes = await showItemsPhoto(id)
         return photoRes
+    },
+    imageUpload:"",
+    setImageUpload:(img)=>{
+        set({imageUpload:img})
     }
 
 })

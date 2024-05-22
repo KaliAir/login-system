@@ -13,12 +13,13 @@ function LibraryModal() {
   const { themeColor } = useThemeColors((state) => ({
     themeColor: state.themeColor,
   }));
-  const { setItemLibraryState, catRes, getCategoryName, showLibraryPhotos } =
+  const { setItemLibraryState, catRes, getCategoryName, showLibraryPhotos,setImageUpload } =
     useCreateObj((state) => ({
       setItemLibraryState: state.setItemLibraryState,
       catRes: state.catRes,
       getCategoryName: state.getCategoryName,
       showLibraryPhotos: state.showLibraryPhotos,
+      setImageUpload: state.setImageUpload
     }));
 
   const [selectValue, setSelectValue] = React.useState(
@@ -38,6 +39,11 @@ function LibraryModal() {
     };
     handleSelectRefetch();
   }, [selectValue]);
+
+  const handleUpload = (photo)=>{
+    setImageUpload(photo)
+    setItemLibraryState(false)
+  }
 
   return (
     //--Div Container
@@ -78,7 +84,9 @@ function LibraryModal() {
         <ul style={Style.imageListContainer}>
           {photoList?.map((items) => {
             return (
-              <li key={items.id} style={Style.libraryLi}>
+              <li key={items.id} style={Style.libraryLi}
+              onClick={()=>handleUpload(items.photo)}
+              >
                 {items.photo ? (
                   <CldImage
                     width="150"

@@ -33,7 +33,6 @@ function Manage() {
   const router = useRouter();
   const [insertValue, setInsertValue] = useState("");
   const [itemError, setItemError ] = useState({});
-  const [imageUpload, setImageUpload] = useState("");
   const [onUpdateChange, setOnUpadateChange] = useState("");
   const { data: session, status } = useSession();
 
@@ -121,8 +120,6 @@ function Manage() {
     setCategoryHover,
     itemSearchButton,
     setItemSearchButton,
-    itemSearchVal,
-    setItemSearchVal,
     itemAddButton,
     setItemAddButton,
     submitItemButtonState,
@@ -135,6 +132,8 @@ function Manage() {
     setItemRefetch,
     itemLibraryState,
     setItemLibraryState,
+    imageUpload,
+    setImageUpload,
 
   } = useCreateObj((state) => ({
     insertList: state.insertList,
@@ -174,8 +173,6 @@ function Manage() {
     setCategoryHover: state.setCategoryHover,
     itemSearchButton: state.itemSearchButton,
     setItemSearchButton: state.setItemSearchButton,
-    itemSearchVal: state.itemSearchVal,
-    setItemSearchVal: state.setItemSearchVal,
     itemAddButton: state.itemAddButton,
     setItemAddButton: state.setItemAddButton,
     submitItemButtonState: state.submitItemButtonState,
@@ -188,6 +185,8 @@ function Manage() {
     setItemRefetch: state.setItemRefetch,
     itemLibraryState: state.itemLibraryState,
     setItemLibraryState: state.setItemLibraryState,
+    imageUpload: state.imageUpload,
+    setImageUpload: state.setImageUpload,
 
   }));
 
@@ -434,12 +433,22 @@ function Manage() {
   };
   const handleCloseItemSearchButton = () => {
     setItemSearchButton(!itemSearchButton);
-    setItemSearchVal("");
+    setSearchItemVal("");
   };
 
   const handleOpenLibrary = ()=>{
     setItemLibraryState(true)
     // setItemRefetch()
+  }
+
+  const handleSearchButton = ()=>{
+    setAddButton(!addButton)
+    setSearchVal("")
+  }
+
+  const handleItemAddButton = ()=>{
+    setItemAddButton(!itemAddButton)
+    setSearchItemVal("")
   }
 
   //*******************************************************************RETURN********************************************************************** */
@@ -590,7 +599,7 @@ function Manage() {
               whileHover={{
                 scale: 1.1,
               }}
-              onClick={() => setAddButton(!addButton)}
+              onClick={handleSearchButton}
             >
               <FaPlus />
             </motion.span>
@@ -1150,7 +1159,7 @@ function Manage() {
                 whileHover={{
                   scale: 1.1,
                 }}
-                onClick={() => setItemAddButton(!itemAddButton)}
+                onClick={handleItemAddButton}
               >
                 <FaPlus />
               </motion.span>

@@ -1,5 +1,5 @@
-export const passwordReseted = async (dataObj)=>{
-    const res = await fetch("/api/passwordreseted",{
+export const checkToken = async (dataObj)=>{
+    const res = await fetch("/api/checktoken",{
         method: "POST",
         headers:{
             'Content-Type': 'application/json'

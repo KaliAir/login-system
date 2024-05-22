@@ -26,11 +26,10 @@ function SignUp() {
     const dataObj = Object.fromEntries(formData);
     const { success, error } = await createUser(dataObj);
     if (success) {
-      const { success } = await generateToken({ email: dataObj.email });
+      const { success, verificationToken:{email, token} } = await generateToken({ email: dataObj.email });
       if (success) {
-        const { email, token } = await verifyemail({ email: dataObj.email });
         const {data} = await send({ email, token });
-        if(data?.error !== null){
+        if(data?.id !== undefined){
           const storeEmail = {email}
           localStorage.setItem('myData',JSON.stringify(storeEmail));
           setSubmitting(false);
@@ -81,7 +80,7 @@ function SignUp() {
         />
       </label>
       <label htmlFor="email">
-        <p>email</p>
+        <p>Email</p>
         <input
           type="email"
           name="email"

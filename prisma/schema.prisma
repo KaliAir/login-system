@@ -36,12 +36,15 @@ model Session {
 
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  lastname      String
-  email         String?   @unique
+  name          String?
+  lastname      String?
+  email         String?         @unique
   hashedPassword String?
+  role           String?
   verified       Boolean @default(false)
   isAdmin        Boolean  @default(false)
+  image         String?
+  emailVerified DateTime?
   
   sessions Session[]
   accounts Account[]

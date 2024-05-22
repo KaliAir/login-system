@@ -22,7 +22,7 @@ export async function POST(request){
             })
         }
         const token = uuidv4();
-        const expires = new Date(new Date().getTime() + 3600 * 1000);
+        const expires = new Date(new Date().getTime() + 120* 1000);
         const verifyEmail = await prisma.verificationToken.findFirst({
             where:{
                 email

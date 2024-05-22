@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client";
+import { isEmailValid } from "@/validateFormEmail/validateformemail";
 
 const prisma = new PrismaClient();
 
@@ -7,6 +8,17 @@ export async function POST(request){
     try {
         const reqbody = await request.json()
         const {email} =  reqbody;
+        if(!email){
+            return NextResponse.json({
+                error:"Email Empty"
+            },{status:400})
+        }
+        const validEmail = isEmailValid(email);
+        if(!validEmail){
+            return NextResponse.json({
+                error:"Invalid Email"
+            })
+        }
         const findVerifactionEmail= await prisma.verificationToken.findFirst({
             where:{
                 email

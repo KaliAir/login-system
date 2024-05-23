@@ -34,6 +34,7 @@ export async function POST(request){
         return NextResponse.json({
             email: findVerifactionEmail.email,
             token: findVerifactionEmail.token,
+            expires: findVerifactionEmail.expires
         })
 
     } catch (error) {

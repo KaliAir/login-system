@@ -30,8 +30,7 @@ function SignUp() {
       if (success) {
         const {data} = await send({ email, token });
         if(data?.id !== undefined){
-          const storeEmail = {email}
-          localStorage.setItem('myData',JSON.stringify(storeEmail));
+          localStorage.setItem('myData',JSON.stringify({email}));
           setSubmitting(false);
           router.push(`/login/signup/${email}`);
         }else{

@@ -1,11 +1,10 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { VscUnverified } from "react-icons/vsc";
 import { Style } from "./styleJS";
 import { motion } from "framer-motion";
 import { confirm } from "@/fetch/confirm";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
 import { generateToken } from "@/fetch/generatetoken";
 import { verifyemail } from "@/fetch/verifyemail";
 import { send } from "@/fetch/send";
@@ -17,44 +16,55 @@ function Verify() {
   const [isLoading, setIsLoading] = useState(false);
   const [relog, setRelog] = useState(false);
   const [storeData, setStoreData] = useState(null);
-  const [expirationTime, setExpirationTime] = useState(null);
-  const [remainingTime, setRemainingTime] = useState(0);
-  
+  const [remainingTime, setRemainingTime] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [refetch, setRefetch] = useState(0);
 
   useEffect(() => {
-    const localStorageData = localStorage.getItem("myData");
-    if (localStorageData) {
-      setStoreData(JSON.parse(localStorageData));
-    } else {
-      router.push("/login/signup");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (expirationTime) {
-      const intervalId = setInterval(() => {
-        const now = new Date().getTime();
-        const timeLeft = Math.max(0, Math.floor((expirationTime - now) / 1000));
-        setRemainingTime(timeLeft);
-        if (timeLeft <= 0) {
-          clearInterval(intervalId);
+    const checkTime = async () => {
+      const localStorageData = localStorage.getItem("myData");
+      if (localStorageData) {
+        const { email, expires } = await verifyemail(JSON.parse(localStorageData));
+        if (expires && email) {
+          const expirationDate = new Date(expires).getTime();
+          const now = new Date().getTime();
+          const returnTime = Math.max(0, Math.floor((expirationDate - now) / 1000));
+          setRemainingTime(returnTime);
+        }else{
+          localStorage.removeItem("myData")
+          router.push("/login/signup");
         }
+        setStoreData(JSON.parse(localStorageData));
+      } else {
+        localStorage.removeItem("myData")
+        router.push("/login/signup");
+      }
+    };
+    checkTime();
+  }, [router,refetch]);
+
+  useEffect(() => {
+    if (remainingTime !== null) {
+      setTimeLeft(remainingTime);
+      const intervalId = setInterval(() => {
+        setTimeLeft((prevTimeLeft) => {
+          if (prevTimeLeft <= 1) {
+            clearInterval(intervalId);
+            return 0;
+          }
+          return prevTimeLeft - 1;
+        });
       }, 1000);
 
       return () => clearInterval(intervalId);
     }
-  }, [expirationTime]);
+  }, [remainingTime]);
 
   const handleVerify = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData);
-    const { email } = await verifyemail(storeData);
-    if (!email) {
-      localStorage.removeItem("myData");
-      router.push("/login/signup");
-    }
     const { success, error } = await confirm(dataObj);
     if (success) {
       setIsLoading(false);
@@ -68,24 +78,22 @@ function Verify() {
 
   const resendEmail = async () => {
     const myForm = document.querySelector("#myForm");
-  
-    // const decodedEmail = decodeURIComponent(params.verify)
     const {
       success,
       isEmailFormat,
       error,
-      verificationToken: { expires, email, token },
+      verificationToken:{email, token}
     } = await generateToken(storeData);
-    setErrorMessage(error);
-    if (error === "Can't generate please relog") {
-      setRelog(true);
-    }
+    if (error) setErrorMessage(error);
+    if (error === "Can't generate please relog") setRelog(true);
     if (success && isEmailFormat) {
+      setRefetch(refetch + 1)
       myForm.reset();
-      const data = await send({ email, token });
-      setExpirationTime(new Date(expires).getTime());
+      await send({ email, token });
+
     }
   };
+
   return (
     <form
       id="myForm"
@@ -93,16 +101,14 @@ function Verify() {
       onSubmit={handleVerify}
       style={Style.verifyContainer}
     >
-      
       <p style={Style.errorMessage}>{errorMessage}</p>
       {!relog ? (
         <VscUnverified style={Style.verifyIcon} />
       ) : (
         <Link href="/login">
-          <motion.p
-            whileHover={{ scale: 1.03 }}
-            style={Style.relog}
-          >{`->RELOG<-`}</motion.p>
+          <motion.p whileHover={{ scale: 1.03 }} style={Style.relog}>
+            {`->RELOG<-`}
+          </motion.p>
         </Link>
       )}
       <p style={Style.emailCheck}>Please check your email.</p>
@@ -113,28 +119,24 @@ function Verify() {
         placeholder="Verification code here"
         style={Style.input}
       />
-      {remainingTime > 0 && (
+      {timeLeft > 0 && (
         <p style={Style.p3}>
-          Time remaining to resend: {Math.floor(remainingTime / 60)}:
-          {("0" + (remainingTime % 60)).slice(-2)}
+          Time remaining : {Math.floor(timeLeft / 60)}:
+          {("0" + (timeLeft % 60)).slice(-2)}
         </p>
       )}
-      
-      {remainingTime < 1 && (<motion.p
-        style={Style.resend}
-        whileHover={{
-          scale: 1.05,
-          color: "#1D24CA",
-        }}
-        onClick={resendEmail}
-      >
-        resend
-      </motion.p>)}
+      {timeLeft < 1 && (
+        <motion.p
+          style={Style.resend}
+          whileHover={{ scale: 1.05, color: "#1D24CA" }}
+          onClick={resendEmail}
+        >
+          resend
+        </motion.p>
+      )}
       <motion.button
         style={!isLoading ? Style.button : Style.buttonLoading}
-        whileHover={{
-          scale: 1.05,
-        }}
+        whileHover={{ scale: 1.05 }}
         type="submit"
       >
         {!isLoading ? "Verify" : "Wait"}

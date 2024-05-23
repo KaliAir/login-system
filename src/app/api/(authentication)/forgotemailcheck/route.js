@@ -11,7 +11,7 @@ export async function POST(request){
 
         if(!email){
             return NextResponse.json({
-                error: "Input field cannot be empty"
+                error: "Please wait..."
             })
         }
 

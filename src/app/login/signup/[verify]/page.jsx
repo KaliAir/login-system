@@ -20,6 +20,15 @@ function Verify() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [refetch, setRefetch] = useState(0);
 
+  //Logic 
+  //1st:get the email in the local storage
+  //2nd:check the local storage if not empty
+  //3rd:if its not empty check the token if it is DB
+  //4th:if its in DB get return the expires to client
+  //5th:get the expires time and deduct it with the current time
+  //6th:save the remaining time base on deducted time on state
+  //7th:save the params value on state so that it can be reuseable
+  //8th:if there is no params push the route to /login/signup page  
   useEffect(() => {
     const checkTime = async () => {
       const localStorageData = localStorage.getItem("myData");
@@ -42,7 +51,12 @@ function Verify() {
     };
     checkTime();
   }, [router,refetch]);
-
+  //Logic
+  //1st:check if the remaining time if it's not null
+  //2nd:save remaining time on state
+  //3rd:create an interval
+  //4th:get the current remaining to on state created before using function
+  //5th:create a return value 
   useEffect(() => {
     if (remainingTime !== null) {
       setTimeLeft(remainingTime);
@@ -59,7 +73,12 @@ function Verify() {
       return () => clearInterval(intervalId);
     }
   }, [remainingTime]);
-
+  //Logic
+  //1st:handle the submited form data
+  //2nd:check token if it's exists
+  //3rd:if it's exists update the verified to true
+  //4rth:if success remove local storage data 
+  //5th: redirect to login page
   const handleVerify = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -78,6 +97,7 @@ function Verify() {
 
   const resendEmail = async () => {
     const myForm = document.querySelector("#myForm");
+    if(timeLeft > 0) return;
     const {
       success,
       isEmailFormat,

@@ -57,6 +57,10 @@ function ResendToken({ params: { verify } }) {
 
   const handleResend = async () => {
     setResendLoading(true);
+    if(timeLeft > 0){
+      setResendLoading(false);
+      return;
+    }
     const { verified, error } = await forgotEmailCheck(verifyVal);
     if (error) {
       setResendLoading(false);
